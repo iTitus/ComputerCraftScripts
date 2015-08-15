@@ -9,7 +9,7 @@ function download(url, fileName)
 end
 
 function downloadReplace(url, fileName)
-  downloadReplace(url, "temp")
+  download(url, "temp")
   fs.delete(fileName)
   fs.move("temp", fileName)
 end
