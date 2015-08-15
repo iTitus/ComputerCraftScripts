@@ -1,9 +1,10 @@
 -- qKKcRJ6p
 os.loadAPI("button")
+os.loadAPI("paint")
 
 c = peripheral.find("tile_thermalexpansion_cell_resonant_name")
 r = peripheral.find("BigReactors-Reactor")
-m = peripheral.wrap("right")
+m = peripheral.find("monitor")
 
 local turnOnPercentage = 5
 local turnOffPercentage = 95
