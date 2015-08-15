@@ -111,9 +111,6 @@ function displayData()
   m.write(comma_value(rChange))
   m.setTextColor(colors.white)
   m.write(" RF/t")
-  
-  local sizeX, sizeY = m.getSize()
-  
 end
 
 function reactorLogic()
