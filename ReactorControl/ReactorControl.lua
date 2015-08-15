@@ -17,9 +17,6 @@ local energy = 0
 local maxEnergy = 0
 local energyPercent = 0
 
-local energyChange = 0
-local cColor = colors.white
-
 local rState = false
 local rStateText = "OFF"
 local rColor = colors.red
@@ -45,16 +42,6 @@ function check()
   end
   if forceMode then
     rStateText = "Force "..rStateText
-  end
-  
-  local oldEnergy = c.getEnergyStored()
-  sleep(0.1)
-  cColor = colors.white
-  energyChange = math.floor(((c.getEnergyStored() - oldEnergy)/2)+0.5)
-  if energyChange > 0 then
-    cColor = colors.green
-  elseif energyChange < 0 then
-    cColor = colors.red
   end
 end
 
@@ -95,18 +82,12 @@ function displayData()
   m.setCursorPos(1,5)
   m.write("Energy: "..comma_value(energy).." RF ("..energyPercent.." %)")
   m.setCursorPos(1,6)
-  m.write("Energy Change: ")
-  m.setTextColor(cColor)
-  m.write(comma_value(energyChange))
-  m.setTextColor(colors.white)
-  m.write(" RF/t")
-  m.setCursorPos(1,7)
-  m.setTextColor(colors.white)
   m.write("Reactor: ")
   m.setTextColor(rColor)
   m.write(rStateText)
   m.setTextColor(colors.white)
-  m.write(" - ")
+  m.setCursorPos(1,7)
+  m.write("Reactor Production: ")
   m.setTextColor(rcColor)
   m.write(comma_value(rChange))
   m.setTextColor(colors.white)
@@ -125,7 +106,7 @@ function reactorLogic()
       end
     end
 	if energyPercent > turnOffPercentage then
-	  if rState then
+      if rState then
         r.setActive(false)
 	  end
     end
