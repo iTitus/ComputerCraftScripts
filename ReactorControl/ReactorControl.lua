@@ -9,6 +9,9 @@ m = peripheral.find("monitor")
 local turnOnPercentage = 5
 local turnOffPercentage = 95
 
+local width = 0
+local height = 0
+
 -- On, Off or Automatic
 local mode = "Automatic"
 local forceMode = false
@@ -25,6 +28,9 @@ local rChange = 0
 local rcColor = colors.white
 
 function check()
+
+  width, height = m.getSize()
+
   energy = c.getEnergyStored()
   maxEnergy = c.getMaxEnergyStored()
   energyPercent = math.floor(((energy/maxEnergy)*100)+0.5)
@@ -94,11 +100,13 @@ function displayData()
   m.setTextColor(colors.white)
   m.write(" RF/t")
   
-  local w, h = m.getSize()
-  local eW = w - 2
-  local dW = math.floor((eW * (energyPercent / 100))+0.5)
-  paint.drawFilledBox(2, 7, w-1, 9, colors.red)
-  paint.drawFilledBox(2, 7, dW+1, 9, colors.green)
+  local dW = math.floor(((width-2) * (energy/maxEnergy))+0.5)+1
+  if energy > 0 then
+    paint.drawFilledBox(2, 7, dW, 9, colors.green)
+  end
+  if energy < maxEnergy then
+    paint.drawFilledBox(dW, 7, width-1, 9, colors.red)
+  end
   
 end
 
