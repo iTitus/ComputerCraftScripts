@@ -111,6 +111,12 @@ function displayData()
   m.write(comma_value(rChange))
   m.setTextColor(colors.white)
   m.write(" RF/t")
+  
+  local oldTerm = term.redirect(m)
+  local sizeX, sizeY = m.getSize()
+  paintutils.drawFilledBox(1, 9, sizeX, 9, colors.cyan)
+  term.redirect(oldTerm)
+  
 end
 
 function reactorLogic()
