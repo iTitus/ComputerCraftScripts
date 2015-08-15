@@ -82,17 +82,21 @@ function displayData()
   m.write("Reactor Control v2")
   m.setCursorPos(1,5)
   m.write("Energy: "..comma_value(energy).." RF ("..energyPercent.." %)")
-  m.setCursorPos(1,6)
+  m.setCursorPos(1,10)
   m.write("Reactor: ")
   m.setTextColor(rColor)
   m.write(rStateText)
   m.setTextColor(colors.white)
-  m.setCursorPos(1,7)
+  m.setCursorPos(1,11)
   m.write("Reactor Production: ")
   m.setTextColor(rcColor)
   m.write(comma_value(rChange))
   m.setTextColor(colors.white)
   m.write(" RF/t")
+  
+  local w, h = m.getSize()
+  paint.drawFilledBox(2, 7, w-1, 9, colors.green)
+  
 end
 
 function reactorLogic()
