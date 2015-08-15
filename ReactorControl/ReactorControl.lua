@@ -34,7 +34,7 @@ function check()
   rState = r.getActive()
   rStateText = "OFF"
   rColor = colors.red
-  rChange = r.getEnergyProducedLastTick()
+  rChange = math.floor(r.getEnergyProducedLastTick()+0.5)
   rcColor = colors.white
   if r.getActive() then
     rStateText = "ON"
@@ -48,9 +48,9 @@ function check()
   end
   
   local oldEnergy = c.getEnergyStored()
-  sleep(0.05)
+  sleep(0.1)
   cColor = colors.white
-  energyChange = math.floor((c.getEnergyStored() - oldEnergy)+0.5)
+  energyChange = math.floor(((c.getEnergyStored() - oldEnergy)/2)+0.5)
   if energyChange > 0 then
     cColor = colors.green
   elseif energyChange < 0 then
