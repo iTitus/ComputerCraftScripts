@@ -115,9 +115,7 @@ end
 
 function reactorLogic()
   if forceMode then
-    print("Reactor: "..tostring(rState).." - Forced Mode: "..tostring(forcedMode))
     if rState ~= forcedMode then
-	  print("Changing mode to "..tostring(forcedMode))
       r.setActive(forcedMode)
     end
   else
