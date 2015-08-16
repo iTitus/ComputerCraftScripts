@@ -9,6 +9,9 @@ m = peripheral.find("monitor")
 local turnOnPercentage = 5
 local turnOffPercentage = 95
 
+local tempTurnOnPercent = -1
+local tempTurnOffPercent = -1
+
 local width = 0
 local height = 0
 
@@ -71,8 +74,25 @@ end
 function editMenu()
   button.clearTable()
   
-  button.setTable("Apply", apply, "", 8, 18, 10, 10)
-  button.setTable("Cancel", cancel, "", 22, 32, 10, 10)
+  -- Changing buttons for On-percent
+  button.setTable("On - 10", changeOnPercent, -10, 3, 13, 3, 3)
+  button.setTable("On - 5", changeOnPercent, -5, 15, 25, 3, 3)
+  button.setTable("On - 1", changeOnPercent, -1, 27, 37, 3, 3)
+  button.setTable("On + 1", changeOnPercent, 1, 3, 13, 5, 5)
+  button.setTable("On + 5", changeOnPercent, 5, 15, 25, 5, 5)
+  button.setTable("On + 10", changeOnPercent, 10, 27, 37, 5, 5)
+  
+  -- Changing buttons for Off-percent
+  button.setTable("Off - 10", changeOffPercent, -10, 3, 13, 10, 10)
+  button.setTable("Off - 5", changeOffPercent, -5, 15, 25, 10, 10)
+  button.setTable("Off - 1", changeOffPercent, -1, 27, 37, 10, 10)
+  button.setTable("Off + 1", changeOffPercent, 1, 3, 13, 12, 12)
+  button.setTable("Off + 5", changeOffPercent, 5, 15, 25, 12, 12)
+  button.setTable("Off + 10", changeOffPercent, 10, 27, 37, 12, 12)
+  
+  -- Exit buttons
+  button.setTable("Apply", apply, "", 8, 18, 15, 15)
+  button.setTable("Cancel", cancel, "", 22, 32, 15, 15)
   
   button.screen()
 end
@@ -100,20 +120,50 @@ end
 
 function apply()
   button.flash("Apply")
+  turnOnPercentage = tempTurnOnPercent
+  turnOffPercentage = tempTurnOffPercent
   writePercent()
   switchMenu("main")
 end
 
 function cancel()
   button.flash("Cancel")
+  tempTurnOnPercent = -1
+  tempTurnOffPercent = -1
   switchMenu("main")
 end
 
 function gotoEdit()
   button.flash("Edit")
+  tempTurnOnPercent = turnOnPercentage
+  tempTurnOffPercent = turnOffPercentage
   switchMenu("edit")
 end
   
+function changeOnPercent(by)
+  local buttonName = "On "
+  if by > 0 then
+    buttonName = buttonName.." + "
+  elseif by < 0 then
+    buttonName = buttonName.." - "
+  end
+  buttonName = buttonName..math.abs(by)
+  button.flash(buttonName)
+  tempTurnOnPercent = tempTurnOnPercent + by
+end
+
+function changeOffPercent(by)
+  local buttonName = "Off "
+  if by > 0 then
+    buttonName = buttonName.." + "
+  elseif by < 0 then
+    buttonName = buttonName.." - "
+  end
+  buttonName = buttonName..math.abs(by)
+  button.flash(buttonName)
+  tempTurnOffPercent = tempTurnOffPercent + by
+end
+
 function displayMainData()
   m.clear()
   m.setCursorPos(1,1)
@@ -146,9 +196,9 @@ end
 function displayEditData()
   m.clear()
   m.setCursorPos(1,1)
-  m.write("On: "..turnOnPercentage)
-  m.setCursorPos(1,2)
-  m.write("Off: "..turnOffPercentage)
+  m.write("On: "..tempTurnOnPercent)
+  m.setCursorPos(1,8)
+  m.write("Off: "..tempTurnOffPercent)
 end
 
 function reactorLogic()
@@ -157,12 +207,12 @@ function reactorLogic()
       r.setActive(forcedMode)
     end
   else
-    if energyPercent < turnOnPercentage then
+    if energyPercent <= turnOnPercentage then
 	  if not rState then
         r.setActive(true)
       end
     end
-	if energyPercent > turnOffPercentage then
+	if energyPercent >= turnOffPercentage then
       if rState then
         r.setActive(false)
 	  end
