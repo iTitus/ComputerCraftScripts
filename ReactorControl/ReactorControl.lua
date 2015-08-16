@@ -160,10 +160,10 @@ end
 
 function displayScreen()
   check()
-  if menuType == main then
+  if menuType == "main" then
     displayMainData()
     mainMenu()
-  elseif menuType == edit then
+  elseif menuType == "edit" then
     displayEditData()
 	editMenu()
   end
