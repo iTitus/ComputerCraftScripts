@@ -182,9 +182,9 @@ function displayMainData()
   m.write(comma_value(rChange))
   m.setTextColor(colors.white)
   m.write(" RF/t")
-  m.setCursorPos(1,13)
-  m.write("Turning reactor on at "..turnOnPercentage.." %")
   m.setCursorPos(1,14)
+  m.write("Turning reactor on at "..turnOnPercentage.." %")
+  m.setCursorPos(1,15)
   m.write("Turning reactor off at "..turnOffPercentage.." %")
   
   local dW = math.floor(((width-2) * (energy/maxEnergy))+0.5)+1
@@ -307,16 +307,16 @@ end
 function readPercent()
   file = io.open("percentOn", "r")
   if file then
-    turnOnPercentage = math.max(math.min(textutils.unserialize(file:read("*a")), 100), 0)
+    turnOnPercentage = textutils.unserialize(file:read("*a")
     file:close()
   end
   file = io.open("percentOff", "r")
   if file then
-    turnOffPercentage = math.min(math.max(textutils.unserialize(file:read("*a")), 0), 100)
+    turnOffPercentage = textutils.unserialize(file:read("*a")
     file:close()
   end
   -- Reset to default
-  if turnOnPercentage >= turnOffPercentage or turnOffPercentage <= turnOnPercentage then
+  if turnOnPercentage < 0 or turnOnPercentage > 100 or turnOffPercentage < 0 or turnOffPercentage > 100 or turnOnPercentage >= turnOffPercentage or turnOffPercentage <= turnOnPercentage then
     print("Error while reading percent values: Out of bounds. Resetting...")
 	turnOnPercentage = 5
 	turnOffPercentage = 95
