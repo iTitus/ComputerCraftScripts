@@ -58,7 +58,7 @@ end
 function mainMenu()
   button.clearTable()
   
-  button.setTable("Edit Values", switchMenu, "edit", 27, 37, 1, 1)
+  button.setTable("Edit", gotoEdit, "", 27, 37, 1, 1)
   -- Mode Switch Buttons
   button.setTable("Automatic", autoMode, "", 3, 13, 3, 3)
   button.setTable("On", doForceMode, true, 15, 25, 3, 3)
@@ -71,8 +71,8 @@ end
 function editMenu()
   button.clearTable()
   
-  button.setTable("OK", savePercent, "", 8, 18, 10, 10)
-  button.setTable("Cancel", switchMenu, "main", 22, 32, 10, 10)
+  button.setTable("Apply", apply, "", 8, 18, 10, 10)
+  button.setTable("Cancel", cancel, "", 22, 32, 10, 10)
   
   button.screen()
 end
@@ -98,11 +98,22 @@ function switchMenu(newMenu)
   menuType = newMenu
 end
 
-function savePercent()
+function apply()
+  button.flash("Apply")
   writePercent()
   switchMenu("main")
 end
 
+function cancel()
+  button.flash("Cancel")
+  switchMenu("main")
+end
+
+function gotoEdit()
+  button.flash("Edit")
+  switchMenu("edit")
+end
+  
 function displayMainData()
   m.clear()
   m.setCursorPos(1,1)
