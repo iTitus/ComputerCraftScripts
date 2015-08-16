@@ -230,17 +230,23 @@ function readMode()
 end
 
 function writePercent()
-  file = io.open("percent", "w")
-  file:write(textutils.serialize(turnOnPercen))
-  file:write(textutils.serialize(turnOffPercen))
+  file = io.open("percentOn", "w")
+  file:write(textutils.serialize(turnOnPercentage))
+  file:close()
+  file = io.open("percentOff", "w")
+  file:write(textutils.serialize(turnOffPercentage))
   file:close()
 end
  
 function readPercent()
-  file = io.open("percent", "r")
+  file = io.open("percentOn", "r")
   if file then
-    turnOnPercentage = textutils.unserialize(file:read("*l"))
-	turnOffPercentage = textutils.unserialize(file:read("*l"))
+    turnOnPercentage = textutils.unserialize(file:read("*a"))
+    file:close()
+  end
+  file = io.open("percentOff", "r")
+  if file then
+    turnOffPercentage = textutils.unserialize(file:read("*a"))
     file:close()
   end
 end
