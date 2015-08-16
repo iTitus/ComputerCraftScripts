@@ -71,9 +71,10 @@ end
 function editMenu()
   button.clearTable()
   
-  button.setTable("Cancel", switchMenu, "main", 8, 18, 10, 10)
-  button.setTable("OK", savePercent, "", 22, 32, 10, 10)
+  button.setTable("OK", savePercent, "", 8, 18, 10, 10)
+  button.setTable("Cancel", switchMenu, "main", 22, 32, 10, 10)
   
+  button.screen()
 end
 
 function autoMode()
