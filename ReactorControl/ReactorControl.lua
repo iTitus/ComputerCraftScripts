@@ -143,9 +143,9 @@ end
 function changeOnPercent(by)
   local buttonName = "On "
   if by > 0 then
-    buttonName = buttonName.." + "
+    buttonName = buttonName.."+ "
   elseif by < 0 then
-    buttonName = buttonName.." - "
+    buttonName = buttonName.."- "
   end
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
@@ -155,9 +155,9 @@ end
 function changeOffPercent(by)
   local buttonName = "Off "
   if by > 0 then
-    buttonName = buttonName.." + "
+    buttonName = buttonName.."+ "
   elseif by < 0 then
-    buttonName = buttonName.." - "
+    buttonName = buttonName.."- "
   end
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
