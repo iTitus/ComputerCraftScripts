@@ -182,6 +182,10 @@ function displayMainData()
   m.write(comma_value(rChange))
   m.setTextColor(colors.white)
   m.write(" RF/t")
+  m.setCursorPos(1,13)
+  m.write("Turning reactor on at "..turnOnPercentage.." %")
+  m.setCursorPos(1,14)
+  m.write("Turning reactor off at "..turnOffPercentage.." %")
   
   local dW = math.floor(((width-2) * (energy/maxEnergy))+0.5)+1
   if energy > 0 then
@@ -196,9 +200,9 @@ end
 function displayEditData()
   m.clear()
   m.setCursorPos(1,1)
-  m.write("On: "..tempTurnOnPercent)
+  m.write("Turning reactor on at "..tempTurnOnPercent.." %")
   m.setCursorPos(1,8)
-  m.write("Off: "..tempTurnOffPercent)
+  m.write("Turning reactor off at "..tempTurnOffPercent.." %")
 end
 
 function reactorLogic()
