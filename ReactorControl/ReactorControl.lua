@@ -13,7 +13,7 @@ local width = 0
 local height = 0
 
 -- main or edit
-local menuType = main
+local menuType = "main"
 
 -- On, Off or Automatic
 local mode = "Automatic"
