@@ -1,3 +1,4 @@
+-- Derived from direwolf20's 'button'-API
 local mon = peripheral.find("monitor")
 mon.setTextScale(1)
 mon.setTextColor(colors.white)

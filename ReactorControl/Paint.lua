@@ -1,3 +1,4 @@
+-- Derived from 'paintutils'
 local mon = peripheral.find("monitor")
 mon.setTextScale(1)
 

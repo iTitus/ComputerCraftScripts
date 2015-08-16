@@ -12,6 +12,9 @@ local turnOffPercentage = 95
 local width = 0
 local height = 0
 
+-- main or edit
+local menuType = main
+
 -- On, Off or Automatic
 local mode = "Automatic"
 local forceMode = false
@@ -55,6 +58,7 @@ end
 function mainMenu()
   button.clearTable()
   
+  button.setTable("Edit Values", switchMenu, "edit", 27, 37, 1, 1)
   -- Mode Switch Buttons
   button.setTable("Automatic", autoMode, "", 3, 13, 3, 3)
   button.setTable("On", doForceMode, true, 15, 25, 3, 3)
@@ -62,6 +66,14 @@ function mainMenu()
   
   -- button.screen()
   button.toggleButton(mode)
+end
+
+function editMenu()
+  button.clearTable()
+  
+  button.setTable("Cancel", switchMenu, "main", 8, 18, 10, 10)
+  button.setTable("OK", savePercent, "", 22, 32, 10, 10)
+  
 end
 
 function autoMode()
@@ -81,7 +93,16 @@ function doForceMode(newMode)
   writeMode()
 end
 
-function displayData()
+function switchMenu(newMenu)
+  menuType = newMenu
+end
+
+function savePercent()
+  writePercent()
+  switchMenu("main")
+end
+
+function displayMainData()
   m.clear()
   m.setCursorPos(1,1)
   m.setTextColor(colors.white)
@@ -110,6 +131,14 @@ function displayData()
   
 end
 
+function displayEditData()
+  m.clear()
+  m.setCursorPos(1,1)
+  m.write("On: "..turnOnPercentage)
+  m.setCursorPos(1,2)
+  m.write("Off: "..turnOffPercentage)
+end
+
 function reactorLogic()
   if forceMode then
     if rState ~= forcedMode then
@@ -131,8 +160,13 @@ end
 
 function displayScreen()
   check()
-  displayData()
-  mainMenu()
+  if menuType == main then
+    displayMainData()
+    mainMenu()
+  elseif menuType == edit then
+    displayEditData()
+	editMenu()
+  end
   reactorLogic()
   
   -- Sleeps 0.5s or until the monitor is touched
@@ -156,10 +190,10 @@ function comma_value(amount)
     return amount
   end
   local formatted = amount
-  local swap = false
+  local negative = false
   if formatted < 0 then 
    formatted = formatted*-1
-   swap = true
+   negative = true
   end
   while true do
     formatted, k = string.gsub(formatted, "^(%d+)(%d%d%d)", '%1.%2')
@@ -167,7 +201,7 @@ function comma_value(amount)
       break
     end
   end
-  if swap then 
+  if negative then 
     formatted = "-"..formatted
   end
   return formatted
@@ -195,7 +229,24 @@ function readMode()
   end
 end
 
+function writePercent()
+  file = io.open("percent", "w")
+  file:write(textutils.serialize(turnOnPercen))
+  file:write(textutils.serialize(turnOffPercen))
+  file:close()
+end
+ 
+function readPercent()
+  file = io.open("percent", "r")
+  if file then
+    turnOnPercentage = textutils.unserialize(file:read("*l"))
+	turnOffPercentage = textutils.unserialize(file:read("*l"))
+    file:close()
+  end
+end
+
 readMode()
+readPercent()
 while true do
   displayScreen()
 end
