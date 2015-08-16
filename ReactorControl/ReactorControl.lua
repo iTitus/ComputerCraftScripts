@@ -303,13 +303,19 @@ end
 function readPercent()
   file = io.open("percentOn", "r")
   if file then
-    turnOnPercentage = textutils.unserialize(file:read("*a"))
+    turnOnPercentage = math.max(math.min(textutils.unserialize(file:read("*a")), 100), 0)
     file:close()
   end
   file = io.open("percentOff", "r")
   if file then
-    turnOffPercentage = textutils.unserialize(file:read("*a"))
+    turnOffPercentage = math.min(math.max(textutils.unserialize(file:read("*a")), 0), 100)
     file:close()
+  end
+  -- Reset to default
+  if turnOnPercentage >= turnOffPercentage or turnOffPercentage <= turnOnPercentage then
+    print("Error while reading percent values: Out of bounds. Resetting...")
+	turnOnPercentage = 5
+	turnOffPercentage = 95
   end
 end
 
