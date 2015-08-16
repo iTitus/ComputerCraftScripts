@@ -307,12 +307,12 @@ end
 function readPercent()
   file = io.open("percentOn", "r")
   if file then
-    turnOnPercentage = textutils.unserialize(file:read("*a")
+    turnOnPercentage = textutils.unserialize(file:read("*a"))
     file:close()
   end
   file = io.open("percentOff", "r")
   if file then
-    turnOffPercentage = textutils.unserialize(file:read("*a")
+    turnOffPercentage = textutils.unserialize(file:read("*a"))
     file:close()
   end
   -- Reset to default
