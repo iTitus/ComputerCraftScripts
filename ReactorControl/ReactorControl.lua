@@ -149,7 +149,7 @@ function changeOnPercent(by)
   end
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
-  tempTurnOnPercent = tempTurnOnPercent + by
+  tempTurnOnPercent = math.min(math.max(tempTurnOnPercent + by, tempTurnOffPercent + 1), 100)
 end
 
 function changeOffPercent(by)
@@ -161,7 +161,7 @@ function changeOffPercent(by)
   end
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
-  tempTurnOffPercent = tempTurnOffPercent + by
+  tempTurnOffPercent = math.max(math.min(tempTurnOffPercent + by, tempTurnOnPercent - 1), 0)
 end
 
 function displayMainData()
