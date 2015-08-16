@@ -75,17 +75,17 @@ function editMenu()
   button.clearTable()
   
   -- Changing buttons for On-percent
-  button.setTable("On - 10", changeOnPercent, -10, 3, 13, 3, 3)
+  button.setTable("On - 1", changeOnPercent, -1, 3, 13, 3, 3)
   button.setTable("On - 5", changeOnPercent, -5, 15, 25, 3, 3)
-  button.setTable("On - 1", changeOnPercent, -1, 27, 37, 3, 3)
+  button.setTable("On - 10", changeOnPercent, -10, 27, 37, 3, 3)
   button.setTable("On + 1", changeOnPercent, 1, 3, 13, 5, 5)
   button.setTable("On + 5", changeOnPercent, 5, 15, 25, 5, 5)
   button.setTable("On + 10", changeOnPercent, 10, 27, 37, 5, 5)
   
   -- Changing buttons for Off-percent
-  button.setTable("Off - 10", changeOffPercent, -10, 3, 13, 10, 10)
+  button.setTable("Off - 1", changeOffPercent, -1, 3, 13, 10, 10)
   button.setTable("Off - 5", changeOffPercent, -5, 15, 25, 10, 10)
-  button.setTable("Off - 1", changeOffPercent, -1, 27, 37, 10, 10)
+  button.setTable("Off - 10", changeOffPercent, -10, 27, 37, 10, 10)
   button.setTable("Off + 1", changeOffPercent, 1, 3, 13, 12, 12)
   button.setTable("Off + 5", changeOffPercent, 5, 15, 25, 12, 12)
   button.setTable("Off + 10", changeOffPercent, 10, 27, 37, 12, 12)
@@ -149,7 +149,7 @@ function changeOnPercent(by)
   end
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
-  tempTurnOnPercent = math.min(math.max(tempTurnOnPercent + by, tempTurnOffPercent + 1), 100)
+  tempTurnOnPercent = math.min(math.max(tempTurnOnPercent + by, tempTurnOffPercent - 1), 100)
 end
 
 function changeOffPercent(by)
@@ -161,7 +161,7 @@ function changeOffPercent(by)
   end
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
-  tempTurnOffPercent = math.max(math.min(tempTurnOffPercent + by, tempTurnOnPercent - 1), 0)
+  tempTurnOffPercent = math.max(math.min(tempTurnOffPercent + by, tempTurnOnPercent + 1), 0)
 end
 
 function displayMainData()
