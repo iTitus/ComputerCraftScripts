@@ -201,9 +201,9 @@ function displayMainData()
   m.setTextColor(colors.white)
   m.write(" RF/t")
   m.setCursorPos(1,14)
-  m.write("Turning reactor on at "..turnOnPercentage.." %")
+  m.write("Turning on at "..turnOnPercentage.." %")
   m.setCursorPos(1,15)
-  m.write("Turning reactor off at "..turnOffPercentage.." %")
+  m.write("Turning off at "..turnOffPercentage.." %")
   
   local dW = math.floor(((width-2) * (energy/maxEnergy))+0.5)+1
   if energy > 0 then
