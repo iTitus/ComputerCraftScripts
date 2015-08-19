@@ -1,4 +1,3 @@
--- qKKcRJ6p
 os.loadAPI("button")
 os.loadAPI("paint")
 
@@ -82,6 +81,8 @@ function editMenu()
   button.setTable("On + 5", changeOnPercent, 5, 15, 25, 5, 5)
   button.setTable("On + 10", changeOnPercent, 10, 27, 37, 5, 5)
   
+  button.setTable("On Default", changeToDefault, true, 27, 37, 1, 1)
+  
   -- Changing buttons for Off-percent
   button.setTable("Off - 1", changeOffPercent, -1, 3, 13, 10, 10)
   button.setTable("Off - 5", changeOffPercent, -5, 15, 25, 10, 10)
@@ -89,6 +90,8 @@ function editMenu()
   button.setTable("Off + 1", changeOffPercent, 1, 3, 13, 12, 12)
   button.setTable("Off + 5", changeOffPercent, 5, 15, 25, 12, 12)
   button.setTable("Off + 10", changeOffPercent, 10, 27, 37, 12, 12)
+  
+  button.setTable("Off Default", changeToDefault, false, 27, 37, 8, 8)
   
   -- Exit buttons
   button.setTable("Apply", apply, "", 8, 18, 15, 15)
@@ -162,6 +165,21 @@ function changeOffPercent(by)
   buttonName = buttonName..math.abs(by)
   button.flash(buttonName)
   tempTurnOffPercent = math.min(math.max(tempTurnOffPercent + by, tempTurnOnPercent + 1), 100)
+end
+
+function changeToDefault(percentType)
+  local buttonName = " Default"
+  if by then
+    buttonName = "On"..buttonName
+  elseif not by then
+    buttonName = "Off"..buttonName
+  end
+  button.flash(buttonName)
+  if by then
+    tempTurnOnPercent = 5
+  elseif not by then
+    tempTurnOffPercent = 95
+  end
 end
 
 function displayMainData()
