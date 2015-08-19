@@ -171,13 +171,13 @@ function changeToDefault(percentType)
   local buttonName = " Default"
   if by then
     buttonName = "On"..buttonName
-  elseif not by then
+  else
     buttonName = "Off"..buttonName
   end
   button.flash(buttonName)
   if by then
     tempTurnOnPercent = 5
-  elseif not by then
+  else
     tempTurnOffPercent = 95
   end
 end
