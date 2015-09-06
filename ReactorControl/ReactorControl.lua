@@ -217,10 +217,25 @@ function displayMainData()
     m.setTextColor(colors.white)
     m.write("|  ")
     m.setTextColor(t["rcColor"])
-    m.write(tostring(t["rChange"]))
+    m.write(comma_value(t["rChange"]))
     m.setTextColor(colors.white)
     m.write(" RF/t")
   end
+  
+  m.setCursorPos(1, 15)
+  local rChangeSum = 0
+  local rcColorSum = colors.white
+  for i, t in ipairs(reactors) do
+    rChangeSum = rChangeSum + t["rChange"]
+  end
+  if rChangeSum > 0 then
+    rcColorSum = colors.green
+  end
+  m.write("Total Production: ")
+  m.setTextColor(rcColorSum)
+  m.write(comma_value(rChangeSum))
+  m.setTextColor(colors.white)
+  m.write(" RF/t")
 
   m.setCursorPos(1, 17)
   m.write("Turning reactor on at "..turnOnPercentage.." %")
