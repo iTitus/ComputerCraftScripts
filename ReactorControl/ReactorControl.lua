@@ -53,7 +53,6 @@ function setRProp(index, key, value)
 end
 
 function getRProp(index, key)
-  print("getRProp("..index..", "..key)
   return reactors[index][key]
 end
 
@@ -259,17 +258,17 @@ function reactorLogic()
   for i = 1, #reactors, 1 do
     local r = getReactor(i)
     if forceMode then
-      if getRProp(index, "rState") ~= forcedMode then
+      if getRProp(i, "rState") ~= forcedMode then
         r.setActive(forcedMode)
       end
     else
       if energyPercent <= turnOnPercentage then
-	    if not getRProp(index, "rState") then
+	    if not getRProp(i, "rState") then
           r.setActive(true)
         end
       end
 	  if energyPercent >= turnOffPercentage then
-        if getRProp(index, "rState") then
+        if getRProp(i, "rState") then
           r.setActive(false)
 	    end
       end
