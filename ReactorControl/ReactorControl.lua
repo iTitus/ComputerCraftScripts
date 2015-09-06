@@ -258,17 +258,17 @@ function reactorLogic()
   for i = 1, #reactors, 1 do
     local r = getReactor(i)
     if forceMode then
-      if rState ~= forcedMode then
+      if getRProp(index, "rState") ~= forcedMode then
         r.setActive(forcedMode)
       end
     else
       if energyPercent <= turnOnPercentage then
-	    if not rState then
+	    if not getRProp(index, "rState") then
           r.setActive(true)
         end
       end
 	  if energyPercent >= turnOffPercentage then
-        if rState then
+        if getRProp(index, "rState") then
           r.setActive(false)
 	    end
       end
