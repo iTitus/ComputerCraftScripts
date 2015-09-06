@@ -3,7 +3,6 @@ os.loadAPI("paint")
 
 c = peripheral.find("tile_thermalexpansion_cell_resonant_name")
 reactors = {}
-findReactors()
 m = peripheral.find("monitor")
 
 local turnOnPercentage = 5
@@ -376,6 +375,7 @@ function readPercent()
   end
 end
 
+findReactors()
 readMode()
 readPercent()
 while true do
