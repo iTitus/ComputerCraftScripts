@@ -53,6 +53,7 @@ function setRProp(index, key, value)
 end
 
 function getRProp(index, key)
+  print("getRProp("..index..", "..key)
   return reactors[index][key]
 end
 
@@ -236,7 +237,7 @@ function displayMainData()
   m.setCursorPos(1,15)
   m.write("Turning reactor off at "..turnOffPercentage.." %")
   
-  local dW = math.floor(((width-2) * (energy/maxEnergy))+0.5)+1
+  local dW = math.floor(((width - 2) * (energy / maxEnergy)) + 0.5) + 1
   if energy > 0 then
     paint.drawFilledBox(2, 7, dW, 9, colors.green)
   end
