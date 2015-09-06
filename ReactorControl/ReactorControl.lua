@@ -67,7 +67,7 @@ function check()
   
   for i = 1, #reactors, 1 do
     local r = getReactor(i)
-    setRProp(i,"rState"], r.getActive())
+    setRProp(i,"rState", r.getActive())
 	setRProp(i,"rStateText", "OFF")
 	setRProp(i,"rColor", colors.red)
 	local rChange = math.floor(r.getEnergyProducedLastTick() + 0.5)
