@@ -217,7 +217,7 @@ function displayMainData()
     m.setTextColor(colors.white)
     m.write("|  ")
     m.setTextColor(t["rcColor"])
-    m.write(t["rChange"])
+    m.write(tostring(t["rChange"]))
     m.setTextColor(colors.white)
     m.write(" RF/t")
   end
