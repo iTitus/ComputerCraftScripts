@@ -31,7 +31,7 @@ function findReactors()
   local pNum = 1
   for n, p in pairs(peripheral.getNames()) do
     if peripheral.getType(p) == pType then
-	  reactors[pNum] = {}
+      reactors[pNum] = {}
       reactors[pNum]["reactor"] = peripheral.wrap(p)
       pNum = pNum + 1
     end 
@@ -49,13 +49,13 @@ function check()
   for i, t in ipairs(reactors) do
     local r = t["reactor"]
     t["rState"] = r.getActive()
-	t["rStateText"] = "OFF"
-	t["rColor"] = colors.red
-	local rChange = math.floor(r.getEnergyProducedLastTick() + 0.5)
-	t["rChange"] = rChange
-	t["rcColor"] = colors.white
-	
-	if r.getActive() then
+    t["rStateText"] = "OFF"
+    t["rColor"] = colors.red
+    local rChange = math.floor(r.getEnergyProducedLastTick() + 0.5)
+    t["rChange"] = rChange
+    t["rcColor"] = colors.white
+    
+    if r.getActive() then
       t["rStateText"] = "ON"
       t["rColor"] = colors.green
     end
@@ -65,7 +65,7 @@ function check()
     if forceMode then
       t["rStateText"] = "Force "..t["rStateText"]
     end
-	
+    
   end
   
 end
@@ -207,18 +207,18 @@ function displayMainData()
   
   for i, t in ipairs(reactors) do
     m.setCursorPos(1,11 + i)
-	m.setTextColor(colors.white)
-	m.write(tostring(i))
-	m.setCursorPos(10,11 + i)
-	m.write("|  ")
+    m.setTextColor(colors.white)
+    m.write(tostring(i))
+    m.setCursorPos(10,11 + i)
+    m.write("|  ")
     m.setTextColor(t["rColor"])
-	m.write(t["rStateText"])
+    m.write(t["rStateText"])
     m.setCursorPos(20,11 + i)
-	m.setTextColor(colors.white)
-	m.write("|  ")
+    m.setTextColor(colors.white)
+    m.write("|  ")
     m.setTextColor(t["rcColor"])
-	m.write(t["rChange"])
-	m.setTextColor(colors.white)
+    m.write(t["rChange"])
+    m.setTextColor(colors.white)
     m.write(" RF/t")
   end
 
@@ -254,14 +254,14 @@ function reactorLogic()
       end
     else
       if energyPercent <= turnOnPercentage then
-	    if not t["rState"] then
+        if not t["rState"] then
           r.setActive(true)
         end
       end
-	  if energyPercent >= turnOffPercentage then
+      if energyPercent >= turnOffPercentage then
         if t["rState"] then
           r.setActive(false)
-	    end
+        end
       end
     end
   end
@@ -274,7 +274,7 @@ function displayScreen()
     mainMenu()
   elseif menuType == "edit" then
     displayEditData()
-	editMenu()
+    editMenu()
   end
   reactorLogic()
   
@@ -361,8 +361,8 @@ function readPercent()
   -- Reset to default
   if turnOnPercentage < 0 or turnOnPercentage > 100 or turnOffPercentage < 0 or turnOffPercentage > 100 or turnOnPercentage >= turnOffPercentage or turnOffPercentage <= turnOnPercentage then
     print("Error while reading percent values: Out of bounds. Resetting...")
-	turnOnPercentage = 5
-	turnOffPercentage = 95
+    turnOnPercentage = 5
+    turnOffPercentage = 95
   end
 end
 
