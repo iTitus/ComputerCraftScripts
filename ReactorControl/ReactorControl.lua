@@ -2,7 +2,8 @@ os.loadAPI("button")
 os.loadAPI("paint")
 
 c = peripheral.find("tile_thermalexpansion_cell_resonant_name")
-r = peripheral.find("BigReactors-Reactor")
+reactors = {}
+findReactors()
 m = peripheral.find("monitor")
 
 local turnOnPercentage = 5
@@ -26,11 +27,35 @@ local energy = 0
 local maxEnergy = 0
 local energyPercent = 0
 
-local rState = false
-local rStateText = "OFF"
-local rColor = colors.red
-local rChange = 0
-local rcColor = colors.white
+-- local rState = false
+-- local rStateText = "OFF"
+-- local rColor = colors.red
+-- local rChange = 0
+-- local rcColor = colors.white
+
+function findReactors()
+  local pType = "BigReactors-Reactor"
+  local pNum = 1
+  for n,p in pairs(peripheral.getNames()) do
+    if peripheral.getType(p) == pType then
+	  reactors[pNum] = {}
+      reactors[pNum]["reactor"] = peripheral.wrap(p)
+      pNum = pNum + 1
+    end 
+  end
+end
+
+function getReactor(index)
+  return reactors[index]["reactor"]
+end
+
+function setRProp(index, key, value)
+  reactors[index][key] = value
+end
+
+function getRProp(index, key)
+  return reactors[index][key]
+end
 
 function check()
 
@@ -40,21 +65,28 @@ function check()
   maxEnergy = c.getMaxEnergyStored()
   energyPercent = math.floor(((energy/maxEnergy)*100)+0.5)
   
-  rState = r.getActive()
-  rStateText = "OFF"
-  rColor = colors.red
-  rChange = math.floor(r.getEnergyProducedLastTick()+0.5)
-  rcColor = colors.white
-  if r.getActive() then
-    rStateText = "ON"
-    rColor = colors.green
+  for i = 1, #reactors, 1 do
+    local r = getReactor(i)
+    setRProp(i,"rState"], r.getActive())
+	setRProp(i,"rStateText", "OFF")
+	setRProp(i,"rColor", colors.red)
+	local rChange = math.floor(r.getEnergyProducedLastTick() + 0.5)
+	setRProp(i,"rChange", rChange)
+	setRProp(i,"rcColor", colors.white)
+	
+	if r.getActive() then
+      setRProp(i,"rStateText", "ON")
+      setRProp(i,"rColor", colors.green)
+    end
+    if rChange > 0 then
+      setRProp(i,"rcColor", colors.green)
+    end
+    if forceMode then
+      setRProp(i,"rStateText", "Force "..getRProp(i, "rStateText"))
+    end
+	
   end
-  if rChange > 0 then
-    rcColor = colors.green
-  end
-  if forceMode then
-    rStateText = "Force "..rStateText
-  end
+  
 end
 
 function mainMenu()
@@ -190,16 +222,16 @@ function displayMainData()
   m.setCursorPos(1,5)
   m.write("Energy: "..comma_value(energy).." RF ("..energyPercent.." %)")
   m.setCursorPos(1,11)
-  m.write("Reactor: ")
-  m.setTextColor(rColor)
-  m.write(rStateText)
-  m.setTextColor(colors.white)
-  m.setCursorPos(1,12)
-  m.write("Reactor Production: ")
-  m.setTextColor(rcColor)
-  m.write(comma_value(rChange))
-  m.setTextColor(colors.white)
-  m.write(" RF/t")
+  -- m.write("Reactor: ")
+  -- m.setTextColor(rColor)
+  -- m.write(rStateText)
+  -- m.setTextColor(colors.white)
+  -- m.setCursorPos(1,12)
+  -- m.write("Reactor Production: ")
+  -- m.setTextColor(rcColor)
+  -- m.write(comma_value(rChange))
+  -- m.setTextColor(colors.white)
+  -- m.write(" RF/t")
   m.setCursorPos(1,14)
   m.write("Turning reactor on at "..turnOnPercentage.." %")
   m.setCursorPos(1,15)
@@ -224,20 +256,23 @@ function displayEditData()
 end
 
 function reactorLogic()
-  if forceMode then
-    if rState ~= forcedMode then
-      r.setActive(forcedMode)
-    end
-  else
-    if energyPercent <= turnOnPercentage then
-	  if not rState then
-        r.setActive(true)
+  for i = 1, #reactors, 1 do
+    local r = getReactor(i)
+    if forceMode then
+      if rState ~= forcedMode then
+        r.setActive(forcedMode)
       end
-    end
-	if energyPercent >= turnOffPercentage then
-      if rState then
-        r.setActive(false)
-	  end
+    else
+      if energyPercent <= turnOnPercentage then
+	    if not rState then
+          r.setActive(true)
+        end
+      end
+	  if energyPercent >= turnOffPercentage then
+        if rState then
+          r.setActive(false)
+	    end
+      end
     end
   end
 end
