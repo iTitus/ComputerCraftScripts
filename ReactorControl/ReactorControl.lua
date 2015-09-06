@@ -208,7 +208,7 @@ function displayMainData()
   for i, t in ipairs(reactors) do
     m.setCursorPos(1,11 + i)
 	m.setTextColor(colors.white)
-	m.write(i)
+	m.write(tostring(i))
 	m.setCursorPos(10,11 + i)
 	m.write("|  ")
     m.setTextColor(t["rColor"])
