@@ -197,23 +197,23 @@ end
 
 function displayMainData()
   m.clear()
-  m.setCursorPos(1,1)
+  m.setCursorPos(1, 1)
   m.setTextColor(colors.white)
   m.write("Reactor Control v2")
-  m.setCursorPos(1,5)
+  m.setCursorPos(1, 5)
   m.write("Energy: "..comma_value(energy).." RF ("..energyPercent.." %)")
-  m.setCursorPos(1,11)
+  m.setCursorPos(1, 11)
   m.write("Reactor  |    State    |  Production")
   
   for i, t in ipairs(reactors) do
-    m.setCursorPos(1,11 + i)
+    m.setCursorPos(1, 11 + i)
     m.setTextColor(colors.white)
     m.write(tostring(i))
-    m.setCursorPos(10,11 + i)
+    m.setCursorPos(10, 11 + i)
     m.write("|    ")
     m.setTextColor(t["rColor"])
     m.write(t["rStateText"])
-    m.setCursorPos(22,11 + i)
+    m.setCursorPos(24, 11 + i)
     m.setTextColor(colors.white)
     m.write("|  ")
     m.setTextColor(t["rcColor"])
@@ -222,9 +222,9 @@ function displayMainData()
     m.write(" RF/t")
   end
 
-  m.setCursorPos(1,17)
+  m.setCursorPos(1, 17)
   m.write("Turning reactor on at "..turnOnPercentage.." %")
-  m.setCursorPos(1,18)
+  m.setCursorPos(1, 18)
   m.write("Turning reactor off at "..turnOffPercentage.." %")
   
   local dW = math.floor(((width - 2) * (energy / maxEnergy)) + 0.5) + 1
@@ -239,9 +239,9 @@ end
 
 function displayEditData()
   m.clear()
-  m.setCursorPos(1,1)
+  m.setCursorPos(1, 1)
   m.write("Turning on at "..tempTurnOnPercent.." %")
-  m.setCursorPos(1,8)
+  m.setCursorPos(1, 8)
   m.write("Turning off at "..tempTurnOffPercent.." %")
 end
 
