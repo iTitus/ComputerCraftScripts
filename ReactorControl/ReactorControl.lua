@@ -26,34 +26,16 @@ local energy = 0
 local maxEnergy = 0
 local energyPercent = 0
 
--- local rState = false
--- local rStateText = "OFF"
--- local rColor = colors.red
--- local rChange = 0
--- local rcColor = colors.white
-
 function findReactors()
   local pType = "BigReactors-Reactor"
   local pNum = 1
-  for n,p in pairs(peripheral.getNames()) do
+  for n, p in pairs(peripheral.getNames()) do
     if peripheral.getType(p) == pType then
 	  reactors[pNum] = {}
       reactors[pNum]["reactor"] = peripheral.wrap(p)
       pNum = pNum + 1
     end 
   end
-end
-
-function getReactor(index)
-  return reactors[index]["reactor"]
-end
-
-function setRProp(index, key, value)
-  reactors[index][key] = value
-end
-
-function getRProp(index, key)
-  return reactors[index][key]
 end
 
 function check()
@@ -64,24 +46,24 @@ function check()
   maxEnergy = c.getMaxEnergyStored()
   energyPercent = math.floor(((energy/maxEnergy)*100)+0.5)
   
-  for i = 1, #reactors, 1 do
-    local r = getReactor(i)
-    setRProp(i,"rState", r.getActive())
-	setRProp(i,"rStateText", "OFF")
-	setRProp(i,"rColor", colors.red)
+  for i, t in ipairs(reactors) do
+    local r = t["reactor"]
+    t["rState"] = r.getActive()
+	t["rStateText"] = "OFF"
+	t["rColor"] = colors.red
 	local rChange = math.floor(r.getEnergyProducedLastTick() + 0.5)
-	setRProp(i,"rChange", rChange)
-	setRProp(i,"rcColor", colors.white)
+	t["rChange"] = rChange
+	t["rcColor"] = colors.white
 	
 	if r.getActive() then
-      setRProp(i,"rStateText", "ON")
-      setRProp(i,"rColor", colors.green)
+      t["rStateText"] = "ON"
+      t["rColor"] = colors.green
     end
     if rChange > 0 then
-      setRProp(i,"rcColor", colors.green)
+      t["rcColor"] = colors.green
     end
     if forceMode then
-      setRProp(i,"rStateText", "Force "..getRProp(i, "rStateText"))
+      t["rStateText"] = "Force "..t["rStateText"]
     end
 	
   end
@@ -223,25 +205,26 @@ function displayMainData()
   m.setCursorPos(1,11)
   m.write("Reactor  |  State  |  Production")
   
-  for i = 1, #reactors, 1 do
+  for i, t in ipairs(reactors) do
     m.setCursorPos(1,11 + i)
 	m.setTextColor(colors.white)
 	m.write(i)
 	m.setCursorPos(10,11 + i)
 	m.write("|  ")
-    m.setTextColor(getRProp(i, "rColor"))
-	m.write(getRProp(i, "rStateText"))
+    m.setTextColor(t["rColor"])
+	m.write(t["rStateText"])
     m.setCursorPos(20,11 + i)
+	m.setTextColor(colors.white)
 	m.write("|  ")
-    m.setTextColor(getRProp(i, "rcColor"))
-	m.write(getRProp(i, "rChange"))
+    m.setTextColor(t["rcColor"])
+	m.write(t["rChange"])
 	m.setTextColor(colors.white)
     m.write(" RF/t")
   end
-  
-  m.setCursorPos(1,20)
+
+  m.setCursorPos(1,17)
   m.write("Turning reactor on at "..turnOnPercentage.." %")
-  m.setCursorPos(1,21)
+  m.setCursorPos(1,18)
   m.write("Turning reactor off at "..turnOffPercentage.." %")
   
   local dW = math.floor(((width - 2) * (energy / maxEnergy)) + 0.5) + 1
@@ -263,20 +246,20 @@ function displayEditData()
 end
 
 function reactorLogic()
-  for i = 1, #reactors, 1 do
-    local r = getReactor(i)
+  for i, t in ipairs(reactors) do
+    local r = t["reactor"]
     if forceMode then
-      if getRProp(i, "rState") ~= forcedMode then
+      if t["rState"] ~= forcedMode then
         r.setActive(forcedMode)
       end
     else
       if energyPercent <= turnOnPercentage then
-	    if not getRProp(i, "rState") then
+	    if not t["rState"] then
           r.setActive(true)
         end
       end
 	  if energyPercent >= turnOffPercentage then
-        if getRProp(i, "rState") then
+        if t["rState"] then
           r.setActive(false)
 	    end
       end
