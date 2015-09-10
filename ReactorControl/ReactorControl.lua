@@ -222,7 +222,7 @@ function displayMainData()
     m.write(" RF/t")
   end
   
-  m.setCursorPos(1, 15)
+  m.setCursorPos(1, 16)
   local rChangeSum = 0
   local rcColorSum = colors.white
   for i, t in ipairs(reactors) do
@@ -237,9 +237,9 @@ function displayMainData()
   m.setTextColor(colors.white)
   m.write(" RF/t")
 
-  m.setCursorPos(1, 17)
-  m.write("Turning reactor on at "..turnOnPercentage.." %")
   m.setCursorPos(1, 18)
+  m.write("Turning reactor on at "..turnOnPercentage.." %")
+  m.setCursorPos(1, 19)
   m.write("Turning reactor off at "..turnOffPercentage.." %")
   
   local dW = math.floor(((width - 2) * (energy / maxEnergy)) + 0.5) + 1
