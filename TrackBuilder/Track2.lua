@@ -6,8 +6,12 @@ end
 
 local iterations = math.floor(tonumber(tArgs[1]))
 
-if iterations < 1 or iterations > 1024 then
+if iterations < 1 or iterations > 959 then
   error("Argument out of bounds!")
+end
+
+if turtle.getItemCount(1) < 1 or turtle.getItemCount(16) > 0 then
+  error("Inventory invalid!")
 end
 
 function collectIntoFirstSlot()
@@ -39,10 +43,10 @@ end
 
 turtle.select(1)
 for i = 1, iterations, 1 do
-  if turtle.getItemCount() < 1 then
+  if turtle.getItemCount() <= 1 then
     collectIntoFirstSlot()
   end
-  while turtle.getItemCount() < 1 do
+  while turtle.getItemCount() <= 1 do
     print("No more blocks. Waiting...")
     os.pullEvent("turtle_inventory")
     collectIntoFirstSlot()
