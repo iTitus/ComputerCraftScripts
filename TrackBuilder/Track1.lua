@@ -41,7 +41,7 @@ for i = 1, iterations, 1 do
   if turtle.getItemCount() < 1 then
     collectIntoFirstSlot()
   end
-  if turtle.getItemCount() < 1 then
+  while turtle.getItemCount() < 1 do
     print("No more blocks. Waiting...")
     os.pullEvent("turtle_inventory")
     collectIntoFirstSlot()
