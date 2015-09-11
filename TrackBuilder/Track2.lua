@@ -31,9 +31,10 @@ function collectIntoFirstSlot()
   turtle.select(1)
 end
 
-function backPlace()
-  turtle.back()
-  turtle.place()
+function placeForward()
+  turtle.breakDown()
+  turtle.placeDown()
+  turtle.forward()
 end
 
 turtle.select(1)
@@ -41,10 +42,10 @@ for i = 1, iterations, 1 do
   if turtle.getItemCount() < 1 then
     collectIntoFirstSlot()
   end
-  if turtle.getItemCount() < 1 then
+  while turtle.getItemCount() < 1 then
     print("No more blocks. Waiting...")
     os.pullEvent("turtle_inventory")
     collectIntoFirstSlot()
   end
-  backPlace()
+  placeForward()
 end
