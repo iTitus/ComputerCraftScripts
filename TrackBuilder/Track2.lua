@@ -32,7 +32,7 @@ function collectIntoFirstSlot()
 end
 
 function placeForward()
-  turtle.breakDown()
+  turtle.digDown()
   turtle.placeDown()
   turtle.forward()
 end
