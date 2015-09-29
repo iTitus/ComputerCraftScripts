@@ -1,7 +1,7 @@
 os.loadAPI("button")
 os.loadAPI("paint")
 
-c = peripheral.find("tile_thermalexpansion_cell_resonant_name")
+cells = {}
 reactors = {}
 m = peripheral.find("monitor")
 
@@ -22,6 +22,7 @@ local mode = "Automatic"
 local forceMode = false
 local forcedMode = false
 
+-- Energ Cells
 local energy = 0
 local maxEnergy = 0
 local energyPercent = 0
@@ -38,12 +39,28 @@ function findReactors()
   end
 end
 
+function findEnergyCells()
+  local pType = "tile_thermalexpansion_cell_resonant_name"
+  local pNum = 1
+  for n, p in pairs(peripheral.getNames()) do
+    if peripheral.getType(p) == pType then
+      reactors[pNum] = peripheral.wrap(p)
+      pNum = pNum + 1
+    end 
+  end
+end
+
 function check()
 
   width, height = m.getSize()
 
-  energy = c.getEnergyStored()
-  maxEnergy = c.getMaxEnergyStored()
+  energy = 0
+  maxEnergy = 0
+  for i, t in ipairs(cells) do
+    local c = t["reactor"]
+	energy = energy + c.getEnergyStored()
+	maxEnergy = maxEnergy + c.getMaxEnergyStored()
+  end
   energyPercent = math.floor(((energy/maxEnergy)*100)+0.5)
   
   for i, t in ipairs(reactors) do
@@ -242,12 +259,16 @@ function displayMainData()
   m.setCursorPos(1, 19)
   m.write("Turning reactor off at "..turnOffPercentage.." %")
   
+  
+ 
   local dW = math.floor(((width - 2) * (energy / maxEnergy)) + 0.5) + 1
   if energy > 0 then
-    paint.drawFilledBox(2, 7, dW, 9, colors.green)
-  end
-  if energy < maxEnergy then
-    paint.drawFilledBox(dW, 7, width-1, 9, colors.red)
+    if energy >= maxEnergy then
+	  paint.drawFilledBox(2, 7, width-1, 9, colors.green)
+	else
+	  paint.drawFilledBox(2, 7, width-1, 9, colors.red)
+      paint.drawFilledBox(2, 7, math.max(math.min(dW, width-2), 2), 9, colors.green)
+	end
   end
   
 end
@@ -382,6 +403,7 @@ function readPercent()
 end
 
 findReactors()
+findEnergyCells()
 readMode()
 readPercent()
 while true do
