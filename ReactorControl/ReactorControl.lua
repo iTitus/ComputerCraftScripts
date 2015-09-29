@@ -44,7 +44,7 @@ function findEnergyCells()
   local pNum = 1
   for n, p in pairs(peripheral.getNames()) do
     if peripheral.getType(p) == pType then
-      reactors[pNum] = peripheral.wrap(p)
+      cells[pNum] = peripheral.wrap(p)
       pNum = pNum + 1
     end 
   end
