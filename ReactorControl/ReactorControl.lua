@@ -56,8 +56,7 @@ function check()
 
   energy = 0
   maxEnergy = 0
-  for i, t in ipairs(cells) do
-    local c = t["reactor"]
+  for j, c in ipairs(cells) do
 	energy = energy + c.getEnergyStored()
 	maxEnergy = maxEnergy + c.getMaxEnergyStored()
   end
