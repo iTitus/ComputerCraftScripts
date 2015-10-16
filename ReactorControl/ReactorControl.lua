@@ -42,12 +42,16 @@ end
 function findEnergyCells()
   local pType = "tile_thermalexpansion_cell_resonant_name"
   local pNum = 1
-  for n, p in pairs(peripheral.getNames()) do
+  for n, p in pairs(peripheral.getNames()) and not connectedOnSide(p) do
     if peripheral.getType(p) == pType then
       cells[pNum] = peripheral.wrap(p)
       pNum = pNum + 1
     end 
   end
+end
+
+function connectedOnSide(p)
+  return p == "front" or p == "back" or p == "left" or p == "right" or p == "top" or p == "bottom"
 end
 
 function check()
@@ -401,9 +405,6 @@ function readPercent()
   end
 end
 
-for n, p in pairs(peripheral.getNames()) do
-  print(n..". "..p)
-end
 findReactors()
 findEnergyCells()
 readMode()
