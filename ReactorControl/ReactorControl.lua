@@ -401,6 +401,9 @@ function readPercent()
   end
 end
 
+for n, p in pairs(peripheral.getNames()) do
+  print(n..". "..p)
+end
 findReactors()
 findEnergyCells()
 readMode()
