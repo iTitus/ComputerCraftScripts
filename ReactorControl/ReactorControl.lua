@@ -42,8 +42,8 @@ end
 function findEnergyCells()
   local pType = "tile_thermalexpansion_cell_resonant_name"
   local pNum = 1
-  for n, p in pairs(peripheral.getNames()) and not connectedOnSide(p) do
-    if peripheral.getType(p) == pType then
+  for n, p in pairs(peripheral.getNames()) do
+    if peripheral.getType(p) == pType and not connectedOnSide(p) then
       cells[pNum] = peripheral.wrap(p)
       pNum = pNum + 1
     end 
