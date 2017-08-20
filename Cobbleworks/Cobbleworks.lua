@@ -2,7 +2,7 @@ pipe = peripheral.wrap("bottom")
 lp = pipe.getLP()
 
 materials = {
-  "cobble"] = {
+  ["cobble"] = {
     ["id"] = function() return lp.getItemIdentifierBuilder().setItemID("minecraft:cobblestone").build() end
   }
 }
