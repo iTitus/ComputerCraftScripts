@@ -3,7 +3,12 @@ lp = pipe.getLP()
 
 materials = {
   ["cobble"] = {
-    ["id"] = function() return lp.getItemIdentifierBuilder().setItemID("minecraft:cobblestone").build() end
+    ["id"] =
+	  function()
+	    builder = lp.getItemIdentifierBuilder()
+	    builder.setItemID("minecraft:cobblestone")
+	    return builder.build()
+	  end
   }
 }
 
