@@ -11,6 +11,6 @@ function getItemAmount(material)
   return pipe.getItemAmount(materials[material]["id"]())
 end
 
-for material, data in materials do
+for material, data in pairs(materials) do
   print(material, getItemAmount(material))
 end
