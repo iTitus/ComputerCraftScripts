@@ -104,15 +104,13 @@ end
 
 while true do
   for material, data in pairs(materials) do
-    local text = material..": "..getItemAmount(material).." -> "
-    term.write(text)
-
+    local text = material..": "..getItemAmount(material)
     local color = data.color
     if color ~= nil then
       local state = isEnabled(material)
-      term.blit(state and "v" or "x", state and "5" or "e", "f")
+	  text = text...." -> "..tostring(enabled)
     end
+	print(text)
   end
   sleep(1)
-  term.clear()
 end
