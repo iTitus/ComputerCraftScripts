@@ -110,8 +110,7 @@ while true do
 	local color = data.color
 	if color ~= nil then
 	  local state = isEnabled(material)
-	  term.blit(tostring(state), state and colors.green or colors.red, colors.black)
-	  term.blit("    ", color, color)
+	  term.blit(state and "v" or "x", state and "5" or "e", "f")
 	end
   end
   sleep(1)
