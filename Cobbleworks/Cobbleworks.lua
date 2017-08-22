@@ -44,5 +44,5 @@ function isEnabled(material)
 end
 
 for material, data in pairs(materials) do
-  print(material..": "..getItemAmount(material).." -> "..isEnabled(material))
+  print(material..": "..getItemAmount(material).." -> "..tostring(isEnabled(material)))
 end
