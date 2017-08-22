@@ -95,16 +95,19 @@ function isEnabled(material)
   end
   local ingredientList = data.ingredient and {data.ingredient} or data.ingredients or {}
   for i, ingredient in ipairs(ingredientList) do
-    if getItemAmount(ingredient) < INGREDIENT_TRESHOLD then
+    if materials[ingredient].itemAmount < INGREDIENT_TRESHOLD then
       return false
     end
   end
-  return getItemAmount(material) < MAX_TRESHOLD
+  return data.itemAmount < MAX_TRESHOLD
 end
 
 while true do
   for material, data in pairs(materials) do
-    local text = material..": "..getItemAmount(material)
+    data.itemAmount = getItemAmount(material)
+  end
+  for material, data in pairs(materials) do
+    local text = material..": "..data.itemAmount
     local color = data.color
     if color ~= nil then
       local state = isEnabled(material)
