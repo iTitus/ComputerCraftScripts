@@ -111,9 +111,10 @@ while true do
     local color = data.color
     if color ~= nil then
       local state = isEnabled(material)
-	  text = text.." -> "..tostring(enabled)
+	  text = text.." -> "..tostring(state)
     end
 	print(text)
   end
-  sleep(1)
+  sleep(5)
+  term.clear()
 end
