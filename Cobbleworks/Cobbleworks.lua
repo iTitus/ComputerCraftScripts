@@ -78,7 +78,7 @@ function isEnabled(material)
   if data.force ~= nil then
     return data.force
   end
-  local ingredientList = if data.ingredient then {data.ingredient} else (data.ingredients or {}) end
+  local ingredientList = data.ingredient and {data.ingredient} or data.ingredients or {}
   for i, ingredient in ipairs(ingredientList) do
     if getItemAmount(ingredient) < INGREDIENT_TRESHOLD then
       return false
