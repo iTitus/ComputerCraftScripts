@@ -28,7 +28,7 @@ materials = {
     color = colors.brown
   },
   slag = {
-    sortIndex = 10,
+    sortIndex = 11,
     id = "ThermalExpansion:material",
     data = 514,
     ingredients = {"sand", "cobble"},
@@ -49,7 +49,7 @@ materials = {
     color = colors.cyan
   },
   silicon = {
-    sortIndex = 9,
+    sortIndex = 10,
     id = "EnderIO:itemMaterial",
     data = 0,
     ingredient = "sand",
@@ -63,14 +63,14 @@ materials = {
     color = colors.gray
   },
   niter = {
-    sortIndex = 12,
+    sortIndex = 13,
     id = "ThermalFoundation:material",
     data = 17,
     ingredient = "sand",
     color = colors.pink
   },
   richSlag = {
-    sortIndex = 11,
+    sortIndex = 12,
     id = "ThermalExpansion:material",
     data = 515,
     ingredient = "redstone",
@@ -88,9 +88,22 @@ materials = {
     data = 0,
     color = colors.lightBlue
   },
+  charcoal = {
+    sortIndex = 9,
+    id = "minecraft:coal",
+    data = 1,
+	ingredient = "rubberWood",
+    color = colors.magenta
+  },
   redstone = {
-    sortIndex = 13,
+    sortIndex = 14,
     id = "minecraft:redstone",
+    data = 0,
+    force = false
+  },
+  rubberWood = {
+    sortIndex = 15,
+    id = "MineFactoryReloaded:rubberwood.log",
     data = 0,
     force = false
   }
