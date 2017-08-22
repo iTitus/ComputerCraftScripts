@@ -151,7 +151,14 @@ while true do
     end
     table.insert(t, row)
   end
-  prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
+  for k, v in ipairs(t) do
+    local s = k..": [ "
+    for v_k, v_v in ipairs(v) do
+        s = s..v_v..", "
+    end
+	s = s.."]"
+  end
+  --prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
   sleep(5)
   term.clear()
   term.setCursorPos(1, 1)
