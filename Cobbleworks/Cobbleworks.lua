@@ -140,25 +140,34 @@ end
 while true do
   for material, data in pairs(materials) do
     data.itemAmount = getItemAmount(material)
-    data.state = color and isEnabled(material) or nil
+	local color = data.color
+	if color ~= nil then
+	  data.state = isEnabled(material)
+	else
+	  data.state = nil
+	end
   end
   local t = {}
   for material, data in pairs(materials) do
-    local row = {material..": ", tostring(data.itemAmount)}
+    local row = {material, " : ", tostring(data.itemAmount)}
     local color, state = data.color, data.state
     if color ~= nil and state ~= nil then
-      table.insert(row, " -> "..tostring(state))
+      row[#row + 1] = " -> "
+	  row[#row + 1] = tostring(state)
     end
-    table.insert(t, row)
+	t[#t + 1] = row
   end
-  for k, v in ipairs(t) do
-    local s = k..": [ "
-    for v_k, v_v in ipairs(v) do
-        s = s..v_v..", "
-    end
-	s = s.."]"
-  end
-  --prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
+
+  --for k, v in ipairs(t) do
+  --  local s = k..": [ "
+  --  for v_k, v_v in ipairs(v) do
+  --      s = s..v_v..", "
+  --  end
+  --  s = s.."]"
+  --  print(s)
+  --end
+
+  prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
   sleep(5)
   term.clear()
   term.setCursorPos(1, 1)
