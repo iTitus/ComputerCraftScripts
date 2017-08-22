@@ -7,13 +7,13 @@ INGREDIENT_TRESHOLD = MAX_TRESHOLD / 2
 materials = {
   cobble = {
     id = "minecraft:cobblestone",
-	data = 0,
-	force = true
+    data = 0,
+    force = true
   },
   stone = {
     id = "minecraft:stone",
-	data = 0,
-	ingredient = "cobble"
+    data = 0,
+    ingredient = "cobble"
   }
 }
 
@@ -37,8 +37,8 @@ function isEnabled(material)
   local ingredient = data.ingredient
   if ingredient ~= nil then
     if getItemAmount(ingredient) < (data.ingredientTreshold or INGREDIENT_TRESHOLD) then
-	  return false
-	end
+      return false
+    end
   end
   return getItemAmount(material) >= (data.maxTreshold or MAX_TRESHOLD)
 end
