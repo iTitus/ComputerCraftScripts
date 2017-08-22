@@ -26,7 +26,7 @@ materials = {
     color = colors.brown
   },
   slag = {
-    sortIndex = 9,
+    sortIndex = 10,
     id = "ThermalExpansion:material",
     data = 514,
     ingredients = {"sand", "cobble"},
@@ -47,7 +47,7 @@ materials = {
     color = colors.cyan
   },
   silicon = {
-    sortIndex = 8,
+    sortIndex = 9,
     id = "EnderIO:itemMaterial",
     data = 0,
     ingredient = "sand",
@@ -61,14 +61,14 @@ materials = {
     color = colors.gray
   },
   niter = {
-    sortIndex = 11,
+    sortIndex = 12,
     id = "ThermalFoundation:material",
     data = 17,
     ingredient = "sand",
     color = colors.pink
   },
   richSlag = {
-    sortIndex = 10,
+    sortIndex = 11,
     id = "ThermalExpansion:material",
     data = 515,
     ingredient = "redstone",
@@ -80,8 +80,14 @@ materials = {
     data = 0,
     color = colors.yellow
   },
+  snow = {
+    sortIndex = 8,
+    id = "minecraft:snowball",
+    data = 0,
+    color = colors.lightBlue
+  },
   redstone = {
-    sortIndex = 12,
+    sortIndex = 13,
     id = "minecraft:redstone",
     data = 0,
     force = false
