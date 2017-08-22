@@ -12,8 +12,52 @@ materials = {
   },
   stone = {
     id = "minecraft:stone",
+    data = 0
+  },
+  sand = {
+    id = "minecraft:sand",
     data = 0,
-    ingredient = "cobble"
+	ingredient = "cobble"
+  },
+  slag = {
+    id = "ThermalExpansion:material",
+    data = 514,
+	ingredients = {"sand", "cobble"}
+  },
+  gravel = {
+    id = "minecraft:gravel",
+    data = 0,
+	ingredient = "stone"
+  },
+  flint = {
+    id = "minecraft:flint",
+    data = 0,
+	ingredient = "gravel"
+  },
+  silicon = {
+    id = "EnderIO:itemMaterial",
+    data = 0,
+	ingredient = "sand"
+  },
+  glass = {
+    id = "minecraft:glass",
+    data = 0,
+	ingredient = "sand"
+  },
+  niter = {
+    id = "ThermalFoundation:material",
+    data = 17,
+	ingredient = "sand"
+  },
+  richSlag = {
+    id = "ThermalExpansion:material",
+    data = 515,
+	ingredient = "redstone"
+  },
+  redstone = {
+    id = "minecraft:redstone",
+    data = 0,
+	force = false
   }
 }
 
@@ -34,13 +78,13 @@ function isEnabled(material)
   if data.force ~= nil then
     return data.force
   end
-  local ingredient = data.ingredient
-  if ingredient ~= nil then
-    if getItemAmount(ingredient) < (data.ingredientTreshold or INGREDIENT_TRESHOLD) then
+  local ingredientList = if data.ingredient then {data.ingredient} else (data.ingredients or {}) end
+  for i, ingredient in ipairs(ingredientList) do
+    if getItemAmount(ingredient) < INGREDIENT_TRESHOLD then
       return false
     end
   end
-  return getItemAmount(material) < (data.maxTreshold or MAX_TRESHOLD)
+  return getItemAmount(material) < MAX_TRESHOLD
 end
 
 for material, data in pairs(materials) do
