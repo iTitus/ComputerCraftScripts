@@ -17,47 +17,47 @@ materials = {
   sand = {
     id = "minecraft:sand",
     data = 0,
-	ingredient = "cobble"
+    ingredient = "cobble"
   },
   slag = {
     id = "ThermalExpansion:material",
     data = 514,
-	ingredients = {"sand", "cobble"}
+    ingredients = {"sand", "cobble"}
   },
   gravel = {
     id = "minecraft:gravel",
     data = 0,
-	ingredient = "stone"
+    ingredient = "stone"
   },
   flint = {
     id = "minecraft:flint",
     data = 0,
-	ingredient = "gravel"
+    ingredient = "gravel"
   },
   silicon = {
     id = "EnderIO:itemMaterial",
     data = 0,
-	ingredient = "sand"
+    ingredient = "sand"
   },
   glass = {
     id = "minecraft:glass",
     data = 0,
-	ingredient = "sand"
+    ingredient = "sand"
   },
   niter = {
     id = "ThermalFoundation:material",
     data = 17,
-	ingredient = "sand"
+    ingredient = "sand"
   },
   richSlag = {
     id = "ThermalExpansion:material",
     data = 515,
-	ingredient = "redstone"
+    ingredient = "redstone"
   },
   redstone = {
     id = "minecraft:redstone",
     data = 0,
-	force = false
+    force = false
   }
 }
 
