@@ -157,7 +157,7 @@ while true do
       local state = isEnabled(material)
       data.state = state
       if state == true then
-        enabledColors[#enabledColors + 1] = colo
+        enabledColors[#enabledColors + 1] = color
       end
     else
       data.state = nil
@@ -175,15 +175,6 @@ while true do
     end
     t[#t + 1] = row
   end
-
-  --for k, v in ipairs(t) do
-  --  local s = k..": [ "
-  --  for v_k, v_v in ipairs(v) do
-  --      s = s..v_v..", "
-  --  end
-  --  s = s.."]"
-  --  print(s)
-  --end
 
   prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
   sleep(SLEEP_TIME)
