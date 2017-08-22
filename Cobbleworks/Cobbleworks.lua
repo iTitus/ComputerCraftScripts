@@ -6,70 +6,82 @@ INGREDIENT_TRESHOLD = MAX_TRESHOLD / 2
 
 materials = {
   cobble = {
+    sortIndex = 1,
     id = "minecraft:cobblestone",
     data = 0,
     force = true,
     color = colors.red
   },
   stone = {
+    sortIndex = 2,
     id = "minecraft:stone",
     data = 0,
     color = colors.green
   },
   sand = {
+    sortIndex = 3,
     id = "minecraft:sand",
     data = 0,
     ingredient = "cobble",
     color = colors.brown
   },
   slag = {
+    sortIndex = 9,
     id = "ThermalExpansion:material",
     data = 514,
     ingredients = {"sand", "cobble"},
     color = colors.blue
   },
   gravel = {
+    sortIndex = 5,
     id = "minecraft:gravel",
     data = 0,
     ingredient = "stone",
     color = colors.purple
   },
   flint = {
+    sortIndex = 6,
     id = "minecraft:flint",
     data = 0,
     ingredient = "gravel",
     color = colors.cyan
   },
   silicon = {
+    sortIndex = 8,
     id = "EnderIO:itemMaterial",
     data = 0,
     ingredient = "sand",
     color = colors.lightGray
   },
   glass = {
+    sortIndex = 4,
     id = "minecraft:glass",
     data = 0,
     ingredient = "sand",
     color = colors.gray
   },
   niter = {
+    sortIndex = 11,
     id = "ThermalFoundation:material",
     data = 17,
     ingredient = "sand",
     color = colors.pink
   },
   richSlag = {
+    sortIndex = 10,
     id = "ThermalExpansion:material",
     data = 515,
     ingredient = "redstone",
     color = colors.lime
   },
   obsidian = {
+    sortIndex = 7,
     id = "minecraft:obsidian",
     data = 0,
     color = colors.yellow
   },
   redstone = {
+    sortIndex = 12,
     id = "minecraft:redstone",
     data = 0,
     force = false
@@ -102,19 +114,45 @@ function isEnabled(material)
   return data.itemAmount < MAX_TRESHOLD
 end
 
+function prettyPrint(t, sortFunction)
+  table.sort(t, sortFunction)
+  
+  col_widths = {}
+  for i, row in ipairs(t) do
+    for j, col in ipairs(row) do
+      local w = #col
+      local w_max = col_widths[j]
+      if not w_max or w and w > w_max then
+        col_widths[j] = w
+      end
+    end
+  end
+  
+  for i, row in ipairs(t) do
+    local s = ""
+    for j, col in ipairs(row) do
+      s = s..col..string.rep(" ", col_widths[j] - #col)
+    end
+    print(s)
+  end
+end
+
 while true do
   for material, data in pairs(materials) do
     data.itemAmount = getItemAmount(material)
+    data.state = color and isEnabled(material) or nil
   end
+  local t = {}
   for material, data in pairs(materials) do
-    local text = material..": "..data.itemAmount
-    local color = data.color
-    if color ~= nil then
-      local state = isEnabled(material)
-	  text = text.." -> "..tostring(state)
+    local row = {material..": ", tostring(data.itemAmount)}
+    local color, state = data.color, data.state
+    if color ~= nil and state ~= nil then
+      table.insert(row, " -> "..tostring(state))
     end
-	print(text)
+    table.insert(t, row)
   end
+  prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
   sleep(5)
   term.clear()
+  term.setCursorPos(1, 1)
 end
