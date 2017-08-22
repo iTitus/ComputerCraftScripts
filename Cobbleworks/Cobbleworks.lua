@@ -40,7 +40,7 @@ function isEnabled(material)
       return false
     end
   end
-  return getItemAmount(material) >= (data.maxTreshold or MAX_TRESHOLD)
+  return getItemAmount(material) < (data.maxTreshold or MAX_TRESHOLD)
 end
 
 for material, data in pairs(materials) do
