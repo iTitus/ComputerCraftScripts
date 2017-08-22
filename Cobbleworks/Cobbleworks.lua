@@ -1,6 +1,8 @@
 pipe = peripheral.wrap("bottom")
 lp = pipe.getLP()
+BUNDLED_OUTPUT = "back"
 
+SLEEP_TIME = 5
 MAX_TRESHOLD = 2048
 INGREDIENT_TRESHOLD = MAX_TRESHOLD / 2
 
@@ -146,22 +148,38 @@ end
 while true do
   for material, data in pairs(materials) do
     data.itemAmount = getItemAmount(material)
-	local color = data.color
-	if color ~= nil then
-	  data.state = isEnabled(material)
-	else
-	  data.state = nil
-	end
+    local color = data.color
+    if color ~= nil then
+      data.state = isEnabled(material)
+    else
+      data.state = nil
+    end
   end
+  
+  local enabledColors = {}
+  for material, data in pairs(materials) do
+    local color = data.color
+    if color ~= nil then
+      local state = isEnabled(material)
+      data.state = state
+      if state == true then
+        enabledColors[#enabledColors + 1] = colo
+      end
+    else
+      data.state = nil
+    end
+  end
+  redstone.setBundledOutput(BUNDLED_OUTPUT, colors.combine(enabledColors))
+  
   local t = {}
   for material, data in pairs(materials) do
     local row = {material, " : ", tostring(data.itemAmount)}
     local color, state = data.color, data.state
     if color ~= nil and state ~= nil then
       row[#row + 1] = " -> "
-	  row[#row + 1] = tostring(state)
+      row[#row + 1] = tostring(state)
     end
-	t[#t + 1] = row
+    t[#t + 1] = row
   end
 
   --for k, v in ipairs(t) do
@@ -174,7 +192,7 @@ while true do
   --end
 
   prettyPrint(t, function(row1, row2) return materials[row1[1]].sortIndex < materials[row2[1]].sortIndex end)
-  sleep(5)
+  sleep(SLEEP_TIME)
   term.clear()
   term.setCursorPos(1, 1)
 end
