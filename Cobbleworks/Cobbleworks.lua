@@ -148,12 +148,6 @@ end
 while true do
   for material, data in pairs(materials) do
     data.itemAmount = getItemAmount(material)
-    local color = data.color
-    if color ~= nil then
-      data.state = isEnabled(material)
-    else
-      data.state = nil
-    end
   end
   
   local enabledColors = {}
@@ -169,7 +163,7 @@ while true do
       data.state = nil
     end
   end
-  redstone.setBundledOutput(BUNDLED_OUTPUT, colors.combine(enabledColors))
+  redstone.setBundledOutput(BUNDLED_OUTPUT, colors.combine(unpack(enabledColors)))
   
   local t = {}
   for material, data in pairs(materials) do
