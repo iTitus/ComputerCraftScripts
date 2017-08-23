@@ -11,7 +11,7 @@ materials = {
     sortIndex = 1,
     id = "minecraft:cobblestone",
     data = 0,
-    force = true,
+    maxTreshold = 4313088,
     color = colors.red
   },
   stone = {
@@ -145,7 +145,7 @@ function isEnabled(material)
       return false
     end
   end
-  return data.itemAmount < MAX_TRESHOLD
+  return data.itemAmount < (data.maxTreshold or MAX_TRESHOLD)
 end
 
 function prettyPrint(t, sortFunction)
