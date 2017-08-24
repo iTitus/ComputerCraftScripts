@@ -102,21 +102,21 @@ materials = {
     ingredient = "rawRubber",
     color = colors.orange
   },
-  redstone = {
-    sortIndex = 15,
-    id = "minecraft:redstone",
-    data = 0,
-    force = false
-  },
   rubberWood = {
-    sortIndex = 16,
+    sortIndex = 15,
     id = "MineFactoryReloaded:rubberwood.log",
     data = 0,
-    force = false
+    color = colors.white
   },
   rawRubber = {
-    sortIndex = 17,
+    sortIndex = 16,
     id = "MineFactoryReloaded:rubber.raw",
+    data = 0,
+    color = colors.white
+  },
+  redstone = {
+    sortIndex = 17,
+    id = "minecraft:redstone",
     data = 0,
     force = false
   }
