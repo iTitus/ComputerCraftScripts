@@ -2,6 +2,7 @@ TURN_ON_PERCENTAGE = 5
 TURN_OFF_PERCENTAGE = 95
 
 SLEEP_TIME = 1
+AVERAGE_SAMPLES = 30
 
 e = peripheral.wrap("back")
 i_list, o_list, io_list = {}, {}, {}
@@ -57,9 +58,9 @@ end
 
 function updateIO()
   local i, o = getInput(), getOutput()
-  i_list[#i_list + 1] = i
-  o_list[#o_list + 1] = o
-  io_list[#io_list + 1] = i - o
+  i_list[(#i_list + 1) % AVERAGE_SAMPLES] = i
+  o_list[(#o_list + 1) % AVERAGE_SAMPLES] = o
+  io_list[(#io_list + 1) % AVERAGE_SAMPLES] = i - o
   
   i_avg, o_avg, io_avg = 0, 0, 0
   local i_size, o_size, io_size = #i_list, #o_list, #io_list
@@ -109,15 +110,19 @@ while true do
   term.setCursorPos(1, 1)
   term.write("Energy: " .. eT .. " (" .. pT .. ")")
   term.setCursorPos(1, 2)
-  term.write("In: " .. iT .. " | Out: " .. oT.. " | IO: " .. ioT)
+  term.write("In: " .. iT)
+  term.setCursorPos(1, 3)
+  term.write("Out: " .. oT)
+  term.setCursorPos(1, 4)
+  term.write("IO: " .. ioT)
   
   local e = getEnergy()
   local c = getMaxEnergy()
   if e > 0 and e < c then -- 0 < e < c
     local dW = floor(((w - 2) * (e / c)) + 0.5) + 1
     dW = math.max(1, math.min(w - 2, dW))
-    paintutils.drawFilledBox(2, 4, dW, 4, colors.green)
-    paintutils.drawFilledBox(dW + 1, 4, w - 1, 4, colors.red)
+    paintutils.drawFilledBox(2, 6, dW, 6, colors.green)
+    paintutils.drawFilledBox(dW + 1, 6, w - 1, 6, colors.red)
   else
     local col = nil
     if e > 0 then -- e = c
@@ -125,7 +130,7 @@ while true do
     else -- e = 0
       col = colors.green
     end
-    paintutils.drawFilledBox(2, 4, w - 2, 4, col)
+    paintutils.drawFilledBox(2, 6, w - 2, 6, col)
   end
   
   term.setBackgroundColor(colors.black)
