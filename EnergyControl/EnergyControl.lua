@@ -78,11 +78,12 @@ end
 
 while true do
   term.clear()
-  term.setCursorPos(1, 1)
+
   local w, h = term.getSize()
-  
   local eT = getEnergyText()
   local pT = getEnergyPercentageText()
+  
+  term.setCursorPos(1, 1)
   term.write("Energy: " .. eT .. " (" .. pT .. ")")
   
   local e = getEnergy()
