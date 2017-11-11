@@ -77,10 +77,7 @@ function floor(v, bracket)
 end
 
 while true do
-  term.setTextColor(colors.white)
-  term.setBackgroundColor(colors.black)
   term.clear()
-  term.setCursorPos(1, 1)
   local w, h = term.getSize()
   
   local eT = getEnergyText()
@@ -91,9 +88,9 @@ while true do
   local c = getMaxEnergy()
   if e > 0 and e < c then -- 0 < e < c
     local dW = floor(((w - 2) * (e / c)) + 0.5) + 1
-	dW = math.max(1, math.min(w - 2, dW))
+    dW = math.max(1, math.min(w - 2, dW))
     paintutils.drawFilledBox(2, 2, dW, 2, colors.green)
-	paintutils.drawFilledBox(dW+2, 2, w - 2, 2, colors.red)
+    paintutils.drawFilledBox(dW + 1, 2, w - 1, 2, colors.red)
   else
     local col = nil
     if e > 0 then -- e = c
@@ -104,5 +101,8 @@ while true do
     paintutils.drawFilledBox(2, 2, w - 2, 2, col)
   end
   
+  term.setTextColor(colors.white)
+  term.setBackgroundColor(colors.black)
+  term.setCursorPos(1, 1)
   sleep(SLEEP_TIME)
 end
