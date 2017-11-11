@@ -74,29 +74,9 @@ function updateIO()
   end
 end
 
-function comma_value(amount)
-  if not amount then
-    return "nil"
-  end
-  if type(amount) ~= "number" then
-    return amount
-  end
-  local formatted = amount
-  local negative = false
-  if formatted < 0 then 
-   formatted = formatted*-1
-   negative = true
-  end
-  while true do
-    formatted, k = string.gsub(formatted, "^(%d+)(%d%d%d)", '%1.%2')
-    if k == 0 then
-      break
-    end
-  end
-  if negative then 
-    formatted = "-"..formatted
-  end
-  return formatted
+function comma_value(n)
+  local left, num, right = string.match(n, "^([^%d]*%d)(%d*)(.-)$")
+  return left .. (num:reverse():gsub("(%d%d%d)", "%1,"):reverse()) .. right
 end
 
 function sgn(v)
