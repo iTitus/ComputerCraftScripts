@@ -78,6 +78,7 @@ end
 
 while true do
   term.clear()
+  term.setCursorPos(1, 1)
   local w, h = term.getSize()
   
   local eT = getEnergyText()
