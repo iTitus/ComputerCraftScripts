@@ -1,5 +1,5 @@
-TURN_ON_PERCENTAGE = 5
-TURN_OFF_PERCENTAGE = 95
+TURN_ON_P = 5
+TURN_OFF_P = 95
 
 SLEEP_TIME = 1
 AVERAGE_SAMPLES = 30
@@ -132,6 +132,8 @@ while true do
     end
     paintutils.drawFilledBox(2, 6, w - 2, 6, col)
   end
+  paintutils.drawPixel(math.max(1, math.min(w - 2, floor(((w - 2) * (TURN_ON_P / 100)) + 0.5) + 1)), 7, colors.yellow)
+  paintutils.drawPixel(math.max(1, math.min(w - 2, floor(((w - 2) * (TURN_OFF_P / 100)) + 0.5) + 1)), 7, colors.yellow)
   
   term.setBackgroundColor(colors.black)
   sleep(SLEEP_TIME)
