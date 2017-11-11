@@ -9,8 +9,20 @@ function getEnergy()
   return floor(e.getEnergy() / 8)
 end
 
-function getCapacity()
+function getMaxEnergy()
   return floor(e.getMaxEnergy() / 8)
+end
+
+function getInput()
+  return floor(e.getInput() / 8)
+end
+
+function getOutput()
+  return floor(e.getOutput() / 8)
+end
+
+function getMaxTransfer()
+  return floor(e.getTransferCap() / 8)
 end
 
 function getPercentage()
@@ -65,6 +77,8 @@ function floor(v, bracket)
 end
 
 while true do
+  term.setTextColor(colors.white)
+  term.setBackgroundColor(colors.black)
   term.clear()
   term.setCursorPos(1, 1)
   local w, h = term.getSize()
@@ -74,19 +88,20 @@ while true do
   term.write("Energy: " .. eT .. " (" .. pT .. ")")
   
   local e = getEnergy()
-  local c = getCapacity()
+  local c = getMaxEnergy()
   if e > 0 and e < c then -- 0 < e < c
-    local p = getEnergy() / getCapacity()
-    local dW = floor(((w - 2) * p) + 0.5) + 1
-    paintutils.drawFilledBox(2, 2, math.max(1, math.min(width - 2, dW)), 2, colors.green)
+    local dW = floor(((w - 2) * (e / c)) + 0.5) + 1
+	dW = math.max(1, math.min(w - 2, dW))
+    paintutils.drawFilledBox(2, 2, dW, 2, colors.green)
+	paintutils.drawFilledBox(dW+2, 2, w - 2, 2, colors.red)
   else
-    local col
+    local col = nil
     if e > 0 then -- e = c
       col = colors.green
     else -- e = 0
       col = colors.green
     end
-    paintutils.drawFilledBox(2, 2, width - 2, 2, col)
+    paintutils.drawFilledBox(2, 2, w - 2, 2, col)
   end
   
   sleep(SLEEP_TIME)
