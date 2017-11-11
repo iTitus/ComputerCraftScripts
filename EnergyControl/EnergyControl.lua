@@ -77,16 +77,16 @@ while true do
   local c = getCapacity()
   if e > 0 and e < c then -- 0 < e < c
     local p = getEnergy() / getCapacity()
-	local dW = floor(((w - 2) * p) + 0.5) + 1
-	paintutils.drawFilledBox(2, 2, math.max(1, math.min(width - 2, dW)), 2, colors.green)
+    local dW = floor(((w - 2) * p) + 0.5) + 1
+    paintutils.drawFilledBox(2, 2, math.max(1, math.min(width - 2, dW)), 2, colors.green)
   else
     local col
     if e > 0 then -- e = c
-	  col = colors.green
-	else -- e = 0
-	  col = colors.green
-	end
-	paintutils.drawFilledBox(2, 2, width - 2, 2, col)
+      col = colors.green
+    else -- e = 0
+      col = colors.green
+    end
+    paintutils.drawFilledBox(2, 2, width - 2, 2, col)
   end
   
   sleep(SLEEP_TIME)
