@@ -17,8 +17,8 @@ function getPercentage()
   return 100 * e.getEnergy() / e.getMaxEnergy()
 end
 
-function getEnergyText(amount)
-  return comma_value(amount) .. " RF"
+function getEnergyText()
+  return comma_value(getEnergy()) .. " RF"
 end
 
 function getEnergyPercentageText()
@@ -67,11 +67,27 @@ end
 while true do
   term.clear()
   term.setCursorPos(1, 1)
+  local w, h = term.getSize()
   
-  local eT = getEnergyText(getEnergy())
+  local eT = getEnergyText()
   local pT = getEnergyPercentageText()
-  
   term.write("Energy: " .. eT .. " (" .. pT .. ")")
+  
+  local e = getEnergy()
+  local c = getCapacity()
+  if e > 0 and e < c then -- 0 < e < c
+    local p = getEnergy() / getCapacity()
+	local dW = floor(((w - 2) * p) + 0.5) + 1
+	paintutils.drawFilledBox(2, 2, math.max(1, math.min(width - 2, dW)), 2, colors.green)
+  else
+    local col
+    if e > 0 then -- e = c
+	  col = colors.green
+	else -- e = 0
+	  col = colors.green
+	end
+	paintutils.drawFilledBox(2, 2, width - 2, 2, col)
+  end
   
   sleep(SLEEP_TIME)
 end
