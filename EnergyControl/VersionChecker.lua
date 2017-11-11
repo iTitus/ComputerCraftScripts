@@ -16,6 +16,6 @@ function downloadReplace(url, fileName)
   fs.move("temp", fileName)
 end
 
-downloadReplace("https://raw.githubusercontent.com/iTitus/ComputerCraftScripts/master/EnergyControl/Startup.lua", "startup")
-downloadReplace("https://raw.githubusercontent.com/iTitus/ComputerCraftScripts/master/EnergyControl/VersionChecker.lua", "versionChecker")
-downloadReplace("https://raw.githubusercontent.com/iTitus/ComputerCraftScripts/master/EnergyControl/EnergyControl.lua", "energyControl")
+downloadReplace("https://raw.githubusercontent.com/iTitus/ComputerCraftScripts/master/EnergyControl/Startup.lua", "startup.lua")
+downloadReplace("https://raw.githubusercontent.com/iTitus/ComputerCraftScripts/master/EnergyControl/VersionChecker.lua", "versionChecker.lua")
+downloadReplace("https://raw.githubusercontent.com/iTitus/ComputerCraftScripts/master/EnergyControl/EnergyControl.lua", "energyControl.lua")
