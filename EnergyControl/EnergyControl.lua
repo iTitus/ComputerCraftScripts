@@ -40,15 +40,15 @@ function getPercentageText()
 end
 
 function getInputText()
-  return comma_value(i_avg) .. " RF/t"
+  return comma_value(round(i_avg, 0.01)) .. " RF/t"
 end
 
 function getOutputText()
-  return comma_value(o_avg) .. " RF/t"
+  return comma_value(round(o_avg, 0.01)) .. " RF/t"
 end
 
 function getIOText()
-  return comma_value(io_avg) .. " RF/t"
+  return comma_value(round(io_avg, 0.01)) .. " RF/t"
 end
 
 function getMaxTransferText()
