@@ -2,7 +2,6 @@ TURN_ON_PERCENTAGE = 5
 TURN_OFF_PERCENTAGE = 95
 
 SLEEP_TIME = 5
-F_T = "100 %"
 
 e = peripheral.wrap("back")
 
@@ -70,18 +69,9 @@ while true do
   term.setCursorPos(1, 1)
   
   local eT = getEnergyText(getEnergy())
-  local cT = getEnergyText(getCapacity())
   local pT = getEnergyPercentageText()
   
-  term.write("Energy:")
-  
-  local x, y = term.getCursorPos()
-  term.setCursorPos(x + (cT:len() - eT:len()), y)
-  term.write(eT .. " / " .. cT .. " (")
-  
-  x, y = term.getCursorPos()
-  term.setCursorPos(x + (F_T:len() - pT:len()), y)
-  term.write(pT .. ")")
+  term.write("Energy: " .. eT .. " (" .. pT .. ")")
   
   sleep(SLEEP_TIME)
 end
