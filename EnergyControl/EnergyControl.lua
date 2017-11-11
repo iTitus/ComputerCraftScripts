@@ -103,8 +103,6 @@ while true do
     paintutils.drawFilledBox(2, 2, w - 2, 2, col)
   end
   
-  term.setTextColor(colors.white)
   term.setBackgroundColor(colors.black)
-  term.setCursorPos(1, 1)
   sleep(SLEEP_TIME)
 end
