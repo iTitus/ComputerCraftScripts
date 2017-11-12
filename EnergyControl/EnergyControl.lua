@@ -1,10 +1,14 @@
-TURN_ON_P = 5
-TURN_OFF_P = 95
+TURN_ON_P = 5 / 100
+TURN_OFF_P = 95 / 100
+
+ENERGY_SIDE = "back"
+RS_SIDE = "right"
 
 SLEEP_TIME = 1
 AVERAGE_SAMPLES = 30
 
-e = peripheral.wrap("back")
+e = peripheral.wrap(ENERGY_SIDE)
+rs_state = true
 i_list, o_list, io_list = {}, {}, {}
 i_avg, o_avg, io_avg = 0, 0, 0
 
@@ -75,6 +79,17 @@ function updateIO()
   end
 end
 
+function updateRS()
+  local p = getEnergy() / getMaxEnergy()
+  if p >= TURN_OFF_P then
+    rs_state = false
+  end
+  if p <= TURN_ON_P then
+    rs_state = true
+  end
+  redstone.setOutput(RS_SIDE, rs_state)
+end
+
 function comma_value(n)
   local left, num, right = string.match(n, "^([^%d]*%d)(%d*)(.-)$")
   return left .. (num:reverse():gsub("(%d%d%d)", "%1,"):reverse()) .. right
@@ -98,6 +113,7 @@ while true do
   term.clear()
 
   updateIO()
+  updateRS()
   
   local w, h = term.getSize()
   local eT = getEnergyText()
@@ -115,11 +131,20 @@ while true do
   term.write("Out: " .. oT)
   term.setCursorPos(1, 4)
   term.write("IO: " .. ioT)
+  term.setCursorPos(1, 5)
+  local s = "State: Generators "
+  if rs_state then
+    s = s .. "ON"
+  else
+    s = s .. "OFF"
+  end
+  term.write(s)
   
   local e = getEnergy()
   local c = getMaxEnergy()
+  local p = e / c
   if e > 0 and e < c then -- 0 < e < c
-    local dW = floor(((w - 2) * (e / c)) + 0.5) + 1
+    local dW = floor(((w - 2) * p) + 0.5) + 1
     dW = math.max(1, math.min(w - 2, dW))
     paintutils.drawFilledBox(2, 6, dW, 6, colors.green)
     paintutils.drawFilledBox(dW + 1, 6, w - 1, 6, colors.red)
