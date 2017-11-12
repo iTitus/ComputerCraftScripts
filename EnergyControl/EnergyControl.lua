@@ -146,8 +146,8 @@ while true do
   if e > 0 and e < c then -- 0 < e < c
     local dW = floor(((w - 2) * p) + 0.5) + 1
     dW = math.max(1, math.min(w - 2, dW))
-    paintutils.drawFilledBox(2, 6, dW, 6, colors.green)
-    paintutils.drawFilledBox(dW + 1, 6, w - 1, 6, colors.red)
+    paintutils.drawFilledBox(2, 7, dW, 7, colors.green)
+    paintutils.drawFilledBox(dW + 1, 7, w - 1, 7, colors.red)
   else
     local col = nil
     if e > 0 then -- e = c
@@ -155,7 +155,7 @@ while true do
     else -- e = 0
       col = colors.green
     end
-    paintutils.drawFilledBox(2, 6, w - 2, 6, col)
+    paintutils.drawFilledBox(2, 7, w - 2, 7, col)
   end
   paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_ON_P) + 1)), 7, colors.yellow)
   paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_OFF_P) + 1)), 7, colors.yellow)
