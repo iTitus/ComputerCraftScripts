@@ -157,8 +157,8 @@ while true do
     end
     paintutils.drawFilledBox(2, 6, w - 2, 6, col)
   end
-  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * (TURN_ON_P / 100)) + 1)), 7, colors.yellow)
-  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * (TURN_OFF_P / 100)) + 1)), 7, colors.yellow)
+  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_ON_P) + 1)), 7, colors.yellow)
+  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_OFF_P) + 1)), 7, colors.yellow)
   
   term.setBackgroundColor(colors.black)
   sleep(SLEEP_TIME)
