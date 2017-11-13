@@ -9,7 +9,7 @@ AVERAGE_SAMPLES = 30
 
 e = peripheral.wrap(ENERGY_SIDE)
 rs_state = true
-i_list, o_list, io_list = {}, {}, {}
+i_list, o_list, io_list = {first=0}, {first=0}, {first=0}
 i_avg, o_avg, io_avg = 0, 0, 0
 
 function getEnergy()
@@ -62,9 +62,10 @@ end
 
 function updateIO()
   local i, o = getInput(), getOutput()
-  i_list[(#i_list + 1) % AVERAGE_SAMPLES] = i
-  o_list[(#o_list + 1) % AVERAGE_SAMPLES] = o
-  io_list[(#io_list + 1) % AVERAGE_SAMPLES] = i - o
+  i_list.first, o_list.first, io_list.first  = (i_list.first + 1) % AVERAGE_SAMPLES, (o_list.first + 1) % AVERAGE_SAMPLES, (io_list.first + 1) % AVERAGE_SAMPLES
+  i_list[i_list.first] = i
+  o_list[o_list.first] = o
+  io_list[io_list.first] = i - o
   
   i_avg, o_avg, io_avg = 0, 0, 0
   local i_size, o_size, io_size = #i_list, #o_list, #io_list
