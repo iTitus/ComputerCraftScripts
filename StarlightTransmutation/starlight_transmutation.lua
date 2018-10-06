@@ -120,14 +120,14 @@ function prep_inv()
   if inv.equip() then
     local tool = inv.getStackInInternalSlot(8)
     if tool and tool.size == 1 and tool.name == TOOL.name and tool.damage == TOOL.damage then
-	  local success, msg = r.dropDown()
-	  if not success then
-	    print("Could not drop tool into charger: " .. msg)
-	  end
-	else
-	  print("The equipped tool does not match the template")
+      local success, msg = r.dropDown()
+      if not success then
+        print("Could not drop tool into charger: " .. msg)
+      end
+    else
+      print("The equipped tool does not match the template")
     end
-	inv.equip()
+    inv.equip()
   else
     print("Could not unequip tool")
   end
@@ -174,14 +174,14 @@ function prep_inv()
   if inv.equip() then
     local tool = inv.getStackInInternalSlot(8)
     if not tool then
-	  local success, msg = r.suckDown()
-	  if not success then
-	    print("Could not suck tool from charger: " .. msg)
-	  end
-	else
-	  print("Unexpected tool in tool slot")
+      local success, msg = r.suckDown()
+      if not success then
+        print("Could not suck tool from charger: " .. msg)
+      end
+    else
+      print("Unexpected tool in tool slot")
     end
-	inv.equip()
+    inv.equip()
   else
     print("Could not unequip tool")
   end
@@ -234,14 +234,14 @@ function not_ready()
   r.select(8)
   if inv.equip() then
     local tool = inv.getStackInInternalSlot(8)
-	inv.equip()
+    inv.equip()
     if not tool or tool.size ~= 1 or tool.name ~= TOOL.name or tool.damage ~= TOOL.damage then
-	  print("The equipped tool does not match the template")
-	  return true
+      print("The equipped tool does not match the template")
+      return true
     end
   else
     print("Could not unequip tool")
-	return true
+    return true
   end
   
   return false
