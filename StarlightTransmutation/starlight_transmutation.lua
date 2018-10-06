@@ -153,36 +153,49 @@ function prep_inv()
 end
 
 function not_ready()
+  -- Energy
   if comp.energy() < ENERGY_TRESHOLD * comp.maxEnergy() then
     print("Missing energy")
     return true
   end
+  
+  -- Facing
   local facing = n.getFacing()
   if facing ~= HOME.facing then
     print("Wrong facing")
     return false
   end
+  
+  -- Position
   local x, y, z = n.getPosition()
   if x ~= HOME.x or y ~= HOME.y or z ~= HOME.z then
     print("Wrong position")
     return false
   end
+  
+  -- Input Item
   local stack = inv.getStackInInternalSlot(1)
   if not stack or stack.size < math.min(SIZE * SIZE + 1, stack.maxSize) or stack.name ~= INPUT.name or stack.damage ~= INPUT.damage then
     print("Stack in Slot 1 does not equal INPUT with minimum size " .. math.min(SIZE * SIZE + 1, stack.maxSize))
     return true
   end
+  
+  -- Empty in between
   for i = 2, 15, 1 do
     if r.count(i) > 0 then
       print("Stack in Slot " .. i .. " is not empty")
       return true
     end
   end
+  
+  -- Output Item
   stack = inv.getStackInInternalSlot(16)
   if not stack or stack.size ~= 1 or stack.name ~= OUTPUT.name or stack.damage ~= OUTPUT.damage then
     print("Stack in Slot 16 does not equal OUTPUT with size 1")
     return true
   end
+  
+  -- TODO: Tool
   
   return false
 end
@@ -237,10 +250,9 @@ end
 function work()
   for _, pos in ipairs(WORK) do
     go_to(pos.x, pos.y, pos.z)
+	if interrupted then break end
     do_work()
-    if r.count(1) <= 1 then
-      break
-    end
+    if interruped or r.count(1) <= 1 then break end
   end
 end
 
@@ -254,5 +266,3 @@ while not interrupted do
   work()
   if interrupted then break end
 end
-
-print("Interrupted")
