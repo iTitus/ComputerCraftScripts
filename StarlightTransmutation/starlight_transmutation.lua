@@ -24,11 +24,11 @@ function fill_work()
   -- assuming HOME is in the south-east corner and
      -- one block below the 3x3 work area
   local y = HOME.y + 1
-  for z = 0, 1 - SIZE, -1 do
+  for z = 0, SIZE - 1, 1 do
     local even  = z % 2 == 0
-    local start = even and ( 0       ) or (1 - SIZE)
-    local end_  = even and ( 1 - SIZE) or (0       )
-    local step  = even and (-1       ) or (1       )
+    local start = even and ( 0       ) or ( SIZE - 1)
+    local end_  = even and ( 1 - SIZE) or ( 0       )
+    local step  = even and ( 1       ) or (-1       )
     for x = start, end_, step do
       table.insert(WORK, { x=HOME.x+x, y=y, z=HOME.z+z })
     end
