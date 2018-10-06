@@ -134,8 +134,8 @@ function not_ready()
     return false
   end
   local stack = r.getStackInInternalSlot(1)
-  if not stack or stack.size < min(SIZE * SIZE + 1, stack.maxSize) or stack.name ~= INPUT.name or stack.damage ~= INPUT.damage then
-    print("Stack in Slot 1 does not equal INPUT with minimum size " .. min(SIZE * SIZE + 1, stack.maxSize))
+  if not stack or stack.size < math.min(SIZE * SIZE + 1, stack.maxSize) or stack.name ~= INPUT.name or stack.damage ~= INPUT.damage then
+    print("Stack in Slot 1 does not equal INPUT with minimum size " .. math.min(SIZE * SIZE + 1, stack.maxSize))
     return true
   end
   for i = 2, 15, 1 do
