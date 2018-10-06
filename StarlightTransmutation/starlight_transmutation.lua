@@ -22,9 +22,9 @@ function fill_work()
   local y = HOME.y + 1
   for z = 0, 1 - SIZE, -1 do
     local odd   = i % 2 == 1
-    local start = if odd then  0        else 1 - SIZE
-    local end_  = if odd then  1 - SIZE else 0
-    local step  = if odd then -1        else 1
+    local start = if odd then  0        else 1 - SIZE end
+    local end_  = if odd then  1 - SIZE else 0        end
+    local step  = if odd then -1        else 1        end
     for x = start, end_, step do
 	  table.insert(WORK, { x=x, y=y, z=z })
 	end
