@@ -8,8 +8,8 @@ local n    = com.navigation
 local inv  = com.inventory_controller
 
 local HOME            = { facing=s.west, x=-15.5, y=130.5, z=52.5 }
-local INPUT           = { facing=s.south, name="tile.sandstone.name", damage=0 }
-local OUTPUT          = { facings.east, name="tile.end_stone.name", damage=0 }
+local INPUT           = { facing=s.south, name="minecraft:sandstone", damage=0 }
+local OUTPUT          = { facings.east, name="minecraft:end_stone", damage=0 }
 local ENERGY_TRESHOLD = 0.99
 local SIZE            = 3
 local WORK            = {}
@@ -22,9 +22,9 @@ function fill_work()
   local y = HOME.y + 1
   for z = 0, 1 - SIZE, -1 do
     local odd   = i % 2 == 1
-    local start = if odd then  0        else 1 - SIZE end
-    local end_  = if odd then  1 - SIZE else 0        end
-    local step  = if odd then -1        else 1        end
+    local start = odd and ( 0       ) or (1 - SIZE)
+    local end_  = odd and ( 1 - SIZE) or (0       )
+    local step  = odd and (-1       ) or (1       )
     for x = start, end_, step do
 	  table.insert(WORK, { x=x, y=y, z=z })
 	end
@@ -56,17 +56,17 @@ end
 function go_to(x, y, z)
   local d_x, d_y, d_z = HOME.X - x, HOME.y - y, HOME.z - z
   if d_x ~= 0 then
-    local facing_name = if d_x < 0 then "pos" else "neg" end .. "x"
+    local facing_name = (d_x < 0 and "pos" or "neg") .. "x"
 	rotate_to(s[facing_name])
 	move_forward(abs(d_x))
   end
   if d_y ~= 0 then
-    local facing_name = if d_y < 0 then "pos" else "neg" end .. "y"
+    local facing_name = (d_y < 0 and "pos" or "neg") .. "y"
 	rotate_to(s[facing_name])
 	move_forward(abs(d_y))
   end
   if d_z ~= 0 then
-    local facing_name = if d_z < 0 then "pos" else "neg" end .. "z"
+    local facing_name = (d_z < 0 and "pos" or "neg") .. "z"
 	rotate_to(s[facing_name])
 	move_forward(abs(d_z))
   end
