@@ -26,9 +26,9 @@ function fill_work()
   local y = HOME.y + 1
   for z = 0, SIZE - 1, 1 do
     local even  = z % 2 == 0
-    local start = even and ( 0       ) or ( SIZE - 1)
-    local end_  = even and ( 1 - SIZE) or ( 0       )
-    local step  = even and ( 1       ) or (-1       )
+    local start = even and (0       ) or ( SIZE - 1)
+    local end_  = even and (1 - SIZE) or ( 0       )
+    local step  = even and (1       ) or (-1       )
     for x = start, end_, step do
       table.insert(WORK, { x=HOME.x+x, y=y, z=HOME.z+z })
     end
@@ -57,7 +57,7 @@ end
 function move(n, pos_fn, neg_fn)
   if n ~= 0 then
     local fn = n > 0 and pos_fn or neg_fn
-    for i = n > 0 and 1 or -1, n, n > 0 and 1 or -1 do
+    for i = 1, math.abs(n), 1 do
       repeat
         local success, msg = fn()
         if not success then
