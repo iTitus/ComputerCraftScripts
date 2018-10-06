@@ -56,14 +56,14 @@ function move(n, pos_fn, neg_fn)
   if n ~= 0 then
     local fn = n > 0 and pos_fn or neg_fn
     for i = n > 0 and 1 or -1, n, n > 0 and 1 or -1 do
-	  repeat
-	    local success, msg = fn()
-		if not success then
-		  print("Cannot move:", msg)
-		  os.sleep(0.25)
-		end
-	  until interruped or success
-	  if interruped then return end
+      repeat
+        local success, msg = fn()
+        if not success then
+          print("Cannot move:", msg)
+          os.sleep(0.25)
+        end
+      until interruped or success
+      if interruped then return end
     end
   end
 end
@@ -180,9 +180,9 @@ end
 function wait_until_ready()
   while not interruped or not_ready() do
     os.sleep(5)
-	if interruped then break end
+    if interruped then break end
     go_home()
-	if interruped then break end
+    if interruped then break end
     prep_inv()
   end
 end
