@@ -1,5 +1,5 @@
 local shell = require("shell")
-local os = require("os")
+local comp = require("computer")
 
 function setState(state)
   file = io.open("state", "w")
@@ -21,7 +21,7 @@ if getState() == "0" then
   print("Updating files...")
   shell.execute("update")
   setState("1")
-  os.shutdown(true)
+  comp.shutdown(true)
 else
   print("Starting Starlight Transmutation")
   setState("0")
