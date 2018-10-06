@@ -250,7 +250,7 @@ end
 function work()
   for _, pos in ipairs(WORK) do
     go_to(pos.x, pos.y, pos.z)
-	if interrupted then break end
+    if interrupted then break end
     do_work()
     if interruped or r.count(1) <= 1 then break end
   end
