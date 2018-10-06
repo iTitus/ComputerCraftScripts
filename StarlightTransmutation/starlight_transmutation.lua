@@ -58,8 +58,9 @@ function move(n, pos_fn, neg_fn)
   if n ~= 0 then
     local fn = n > 0 and pos_fn or neg_fn
     for i = 1, math.abs(n), 1 do
+	  local success, msg
       repeat
-        local success, msg = fn()
+        success, msg = fn()
         if not success then
           print("Cannot move:", msg)
           os.sleep(0.25)
@@ -203,8 +204,9 @@ function do_work()
   end
   
   if is_output then
+    local success, msg
     repeat
-	  local success, msg = r.swingUp()
+	  success, msg = r.swingUp()
 	  if not success then
         print("Cannot break block")
         os.sleep(0.25)
@@ -214,8 +216,9 @@ function do_work()
   if interrupted then return end
   if not is_input then
     r.select(1)
+	local success, msg
     repeat
-      local success, msg = r.placeUp()
+      success, msg = r.placeUp()
       if not success then
         print("Cannot place block:", msg)
         os.sleep(0.25)
