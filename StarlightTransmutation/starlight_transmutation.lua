@@ -159,7 +159,7 @@ function not_ready()
     print("Wrong position")
     return false
   end
-  local stack = r.getStackInInternalSlot(1)
+  local stack = inv.getStackInInternalSlot(1)
   if not stack or stack.size < math.min(SIZE * SIZE + 1, stack.maxSize) or stack.name ~= INPUT.name or stack.damage ~= INPUT.damage then
     print("Stack in Slot 1 does not equal INPUT with minimum size " .. math.min(SIZE * SIZE + 1, stack.maxSize))
     return true
@@ -170,7 +170,7 @@ function not_ready()
       return true
     end
   end
-  stack = r.getStackInInternalSlot(16)
+  stack = inv.getStackInInternalSlot(16)
   if not stack or stack.size ~= 1 or stack.name ~= OUTPUT.name or stack.damage ~= OUTPUT.damage then
     print("Stack in Slot 16 does not equal OUTPUT with size 1")
     return true
