@@ -25,10 +25,10 @@ function fill_work()
      -- one block below the 3x3 work area
   local y = HOME.y + 1
   for z = 0, 1 - SIZE, -1 do
-    local odd   = z % 2 == 1
-    local start = odd and ( 0       ) or (1 - SIZE)
-    local end_  = odd and ( 1 - SIZE) or (0       )
-    local step  = odd and (-1       ) or (1       )
+    local even  = z % 2 == 0
+    local start = even and ( 0       ) or (1 - SIZE)
+    local end_  = even and ( 1 - SIZE) or (0       )
+    local step  = even and (-1       ) or (1       )
     for x = start, end_, step do
       table.insert(WORK, { x=HOME.x+x, y=y, z=HOME.z+z })
     end
