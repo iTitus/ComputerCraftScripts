@@ -21,7 +21,7 @@ function fill_work()
      -- one block below the 3x3 work area
   local y = HOME.y + 1
   for z = 0, 1 - SIZE, -1 do
-    local odd   = i % 2 == 1
+    local odd   = z % 2 == 1
     local start = odd and ( 0       ) or (1 - SIZE)
     local end_  = odd and ( 1 - SIZE) or (0       )
     local step  = odd and (-1       ) or (1       )
@@ -54,21 +54,21 @@ function move_forward(n)
 end
 
 function go_to(x, y, z)
-  local d_x, d_y, d_z = HOME.X - x, HOME.y - y, HOME.z - z
+  local d_x, d_y, d_z = HOME.x - x, HOME.y - y, HOME.z - z
   if d_x ~= 0 then
     local facing_name = (d_x < 0 and "pos" or "neg") .. "x"
     rotate_to(s[facing_name])
-    move_forward(abs(d_x))
+    move_forward(math.abs(d_x))
   end
   if d_y ~= 0 then
     local facing_name = (d_y < 0 and "pos" or "neg") .. "y"
     rotate_to(s[facing_name])
-    move_forward(abs(d_y))
+    move_forward(math.abs(d_y))
   end
   if d_z ~= 0 then
     local facing_name = (d_z < 0 and "pos" or "neg") .. "z"
     rotate_to(s[facing_name])
-    move_forward(abs(d_z))
+    move_forward(math.abs(d_z))
   end
 end
 
