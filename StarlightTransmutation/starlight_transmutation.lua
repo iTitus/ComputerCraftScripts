@@ -30,8 +30,6 @@ function fill_work()
     local end_  = even and ( 1 - SIZE) or (0       )
     local step  = even and (-1       ) or (1       )
     for x = start, end_, step do
-    for x = start, end_, step do
-    for x = start, end_, step do
       table.insert(WORK, { x=HOME.x+x, y=y, z=HOME.z+z })
     end
   end
