@@ -10,8 +10,9 @@ local n    = com.navigation
 local inv  = com.inventory_controller
 
 local HOME            = { facing=s.west , x=-15.5, y=130.5, z=52.5 }
-local INPUT           = { facing=s.south, name="minecraft:sandstone", damage=0 }
-local OUTPUT          = { facing=s.east , name="minecraft:end_stone", damage=0 }
+local TOOL            = {                 name="redstonearsenal:tool.pickaxe_flux", damage=0 }
+local INPUT           = { facing=s.south, name="minecraft:sandstone"              , damage=0 }
+local OUTPUT          = { facing=s.east , name="minecraft:end_stone"              , damage=0 }
 local ENERGY_TRESHOLD = 0.99
 local SIZE            = 3
 local WORK            = {}
@@ -37,7 +38,7 @@ end
 
 function on_interrupted(event, ...)
   interrupted = true
-  print("Received interrupt")
+  print("Received event interrupt")
 end
 
 function on_inventory_change(event, slot)
@@ -69,7 +70,7 @@ function move(n, pos_fn, neg_fn)
       repeat
         success, msg = fn()
         if not success then
-          print("Cannot move:", msg)
+          print("Cannot move: " .. msg)
           os.sleep(0.25)
         end
       until interrupted or success
@@ -113,6 +114,24 @@ function go_home()
 end
 
 function prep_inv()
+  rotate_to(HOME.facing)
+  
+  r.select(8)
+  if inv.equip() then
+    local tool = inv.getStackInInternalSlot(8)
+    if tool and tool.size == 1 and tool.name == TOOL.name and tool.damage == TOOL.damage then
+	  local success, msg = r.dropDown()
+	  if not success then
+	    print("Could not drop tool into charger: " .. msg)
+	  end
+	else
+	  print("The equipped tool does not match the template")
+    end
+	inv.equip()
+  else
+    print("Could not unequip tool")
+  end
+  -----------------------------------------------------------------------------
   rotate_to(OUTPUT.facing)
   
   for i = 2, 15, 1 do
@@ -150,6 +169,22 @@ function prep_inv()
   end
   -----------------------------------------------------------------------------
   rotate_to(HOME.facing)
+  
+  r.select(8)
+  if inv.equip() then
+    local tool = inv.getStackInInternalSlot(8)
+    if not tool then
+	  local success, msg = r.suckDown()
+	  if not success then
+	    print("Could not suck tool from charger: " .. msg)
+	  end
+	else
+	  print("Unexpected tool in tool slot")
+    end
+	inv.equip()
+  else
+    print("Could not unequip tool")
+  end
 end
 
 function not_ready()
@@ -175,8 +210,8 @@ function not_ready()
   
   -- Input Item
   local stack = inv.getStackInInternalSlot(1)
-  if not stack or stack.size < math.min(SIZE * SIZE + 1, stack.maxSize) or stack.name ~= INPUT.name or stack.damage ~= INPUT.damage then
-    print("Stack in Slot 1 does not equal INPUT with minimum size " .. math.min(SIZE * SIZE + 1, stack.maxSize))
+  if not stack or stack.maxSize < 2 or stack.size < math.min(SIZE * SIZE + 1, stack.maxSize) or stack.name ~= INPUT.name or stack.damage ~= INPUT.damage then
+    print("Stack in Slot 1 does not equal INPUT with minimum size " .. math.min(SIZE * SIZE + 1, stack.maxSize) .. " and a maximum size of at least 2")
     return true
   end
   
@@ -195,7 +230,19 @@ function not_ready()
     return true
   end
   
-  -- TODO: Tool
+  -- Tool
+  r.select(8)
+  if inv.equip() then
+    local tool = inv.getStackInInternalSlot(8)
+	inv.equip()
+    if not tool or tool.size ~= 1 or tool.name ~= TOOL.name or tool.damage ~= TOOL.damage then
+	  print("The equipped tool does not match the template")
+	  return true
+    end
+  else
+    print("Could not unequip tool")
+	return true
+  end
   
   return false
 end
@@ -240,7 +287,7 @@ function do_work()
     repeat
       success, msg = r.placeUp()
       if not success then
-        print("Cannot place block:", msg)
+        print("Cannot place block: " .. msg)
         os.sleep(0.25)
       end
     until interrupted or success
