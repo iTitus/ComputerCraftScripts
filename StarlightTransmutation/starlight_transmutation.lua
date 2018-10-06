@@ -15,6 +15,8 @@ local ENERGY_TRESHOLD = 0.99
 local SIZE            = 3
 local WORK            = {}
 
+local interrupted = false
+
 ------------------------------
 
 function fill_work()
@@ -35,11 +37,12 @@ end
 t.clear()
 t.setCursor(1, 1)
 fill_work()
+event.listen("interrupted", function() interruped = true end)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
   local facing = n.getFacing()
-  while facing ~= side do
+  while not interruped or facing ~= side do
     r.turnRight()
     facing = n.getFacing()
   end
@@ -47,26 +50,30 @@ end
 
 function move_forward(n)
   for i = 1, n, 1 do
-    while not r.forward() do
+    while not interruped or not r.forward() do
       print("Cannot move: path obstructed!")
       os.sleep(0.25)
     end
+	if interruped then return end
   end
 end
 
 function go_to(t_x, t_y, t_z)
   local x, y, z = n.getPosition()
   local d_x, d_y, d_z = t_x - x, t_y - y, t_z - z
+  if interruped then return end
   if d_x ~= 0 then
     local facing_name = (d_x > 0 and "pos" or "neg") .. "x"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_x))
   end
+  if interruped then return end
   if d_y ~= 0 then
     local facing_name = (d_y > 0 and "pos" or "neg") .. "y"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_y))
   end
+  if interruped then return end
   if d_z ~= 0 then
     local facing_name = (d_z > 0 and "pos" or "neg") .. "z"
     rotate_to(s[facing_name])
@@ -155,9 +162,11 @@ function not_ready()
 end
 
 function wait_until_ready()
-  while not_ready() do
+  while not interruped or not_ready() do
     os.sleep(5)
+	if interruped then break end
     go_home()
+	if interruped then break end
     prep_inv()
   end
 end
@@ -181,9 +190,15 @@ function work()
   end
 end
 
-while true do
+while not interruped do
   go_home()
+  if interruped then break end
   prep_inv()
+  if interruped then break end
   wait_until_ready()
+  if interruped then break end
   work()
+  if interruped then break end
 end
+
+print("Interrupted")
