@@ -47,37 +47,44 @@ e.listen("interrupted", interrupt)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
-  print("Current: ", s[n.getFacing()], " | Desired: ", s[side])
   while not interruped or n.getFacing() ~= side do
     r.turnRight()
-	print("Current: ", s[n.getFacing()], " | Desired: ", s[side])
+  end
+end
+
+function move(n, pos_fn, neg_fn)
+  if n ~= 0 then
+    local fn = n > 0 and pos_fn or neg_fn
+    for i = n > 0 and 1 or -1, n, n > 0 and 1 or -1 do
+      while not interruped or not fn() do
+        print("Cannot move: path obstructed!")
+        os.sleep(0.25)
+      end
+	  if interruped then return end
+    end
   end
 end
 
 function move_forward(n)
-  for i = 1, n, 1 do
-    while not interruped or not r.forward() do
-      print("Cannot move: path obstructed!")
-      os.sleep(0.25)
-    end
-	if interruped then return end
-  end
+  move(n, r.forward, r.back)
+end
+
+function move_up(n)
+  move(n, r.up, r.down)
 end
 
 function go_to(t_x, t_y, t_z)
   local x, y, z = n.getPosition()
   local d_x, d_y, d_z = t_x - x, t_y - y, t_z - z
   if interruped then return end
+  if d_y ~= 0 then
+    move_up(d_y)
+  end
+  if interruped then return end
   if d_x ~= 0 then
     local facing_name = (d_x > 0 and "pos" or "neg") .. "x"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_x))
-  end
-  if interruped then return end
-  if d_y ~= 0 then
-    local facing_name = (d_y > 0 and "pos" or "neg") .. "y"
-    rotate_to(s[facing_name])
-    move_forward(math.abs(d_y))
   end
   if interruped then return end
   if d_z ~= 0 then
