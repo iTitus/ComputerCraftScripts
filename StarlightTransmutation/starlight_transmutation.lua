@@ -54,28 +54,28 @@ function move_forward(n)
   end
 end
 
-function go_to(x, y, z)
-  local d_x, d_y, d_z = HOME.x - x, HOME.y - y, HOME.z - z
+function go_to(t_x, t_y, t_z)
+  local x, y, z = n.getPosition()
+  local d_x, d_y, d_z = t_x - x, t_y - y, t_z - z
   if d_x ~= 0 then
-    local facing_name = (d_x < 0 and "pos" or "neg") .. "x"
+    local facing_name = (d_x > 0 and "pos" or "neg") .. "x"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_x))
   end
   if d_y ~= 0 then
-    local facing_name = (d_y < 0 and "pos" or "neg") .. "y"
+    local facing_name = (d_y > 0 and "pos" or "neg") .. "y"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_y))
   end
   if d_z ~= 0 then
-    local facing_name = (d_z < 0 and "pos" or "neg") .. "z"
+    local facing_name = (d_z > 0 and "pos" or "neg") .. "z"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_z))
   end
 end
 
 function go_home()
-  local x, y, z = n.getPosition()
-  go_to(x, y, z)
+  go_to(HOME.x, HOME.y, HOME.z)
   rotate_to(HOME.facing)
 end
 
