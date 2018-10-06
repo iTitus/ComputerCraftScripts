@@ -2,6 +2,7 @@ local comp = require("computer")
 local com  = require("component")
 local t    = require("term")
 local os   = require("os")
+local math = require("math")
 local r    = require("robot")
 local s    = require("sides")
 local n    = com.navigation
