@@ -214,7 +214,6 @@ function do_work()
   if interrupted then return end
   if not is_input then
     r.select(1)
-    r.placeUp()
     repeat
       local success, msg = r.placeUp()
       if not success then
