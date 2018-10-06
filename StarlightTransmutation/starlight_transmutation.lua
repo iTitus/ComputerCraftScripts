@@ -190,19 +190,39 @@ function wait_until_ready()
 end
 
 function do_work()
-  r.select(16)
-  if r.compareUp() then
-    r.swingUp()
-  end
+  local is_input = false
+  local is_output = false
   r.select(1)
-  r.placeUp()
-  repeat
-    local success, msg = r.placeUp()
-    if not success then
-      print("Cannot place:", msg)
-      os.sleep(0.25)
-    end
-  until interrupted or success
+  if r.compareUp() then
+    is_input = true
+  else
+    r.select(16)
+	if r.compareUp() then
+      is_output = true
+	end
+  end
+  
+  if is_output then
+    repeat
+	  local success, msg = r.swingUp()
+	  if not success then
+        print("Cannot break block")
+        os.sleep(0.25)
+      end
+	until interrupted or success
+  end
+  if interrupted then return end
+  if not is_input then
+    r.select(1)
+    r.placeUp()
+    repeat
+      local success, msg = r.placeUp()
+      if not success then
+        print("Cannot place block:", msg)
+        os.sleep(0.25)
+      end
+    until interrupted or success
+  end
 end
 
 function work()
