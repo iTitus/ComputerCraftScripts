@@ -38,14 +38,12 @@ end
 t.clear()
 t.setCursor(1, 1)
 fill_work()
-e.listen("interrupted", function() interruped = true end)
+e.listen("interrupted", function(...) interruped = true end)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
-  local facing = n.getFacing()
-  while not interruped or facing ~= side do
+  while not interruped or n.getFacing() ~= side do
     r.turnRight()
-    facing = n.getFacing()
   end
 end
 
