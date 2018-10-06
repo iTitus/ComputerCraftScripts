@@ -47,7 +47,9 @@ e.listen("interrupted", interrupt)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
+  print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side]
   while not interruped or n.getFacing() ~= side do
+    print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
     r.turnRight()
   end
 end
