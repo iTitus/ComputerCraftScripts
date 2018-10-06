@@ -35,15 +35,22 @@ function fill_work()
   end
 end
 
+function interrupt(...)
+  interruped = true
+  print("Received interrupt")
+end
+
 t.clear()
 t.setCursor(1, 1)
 fill_work()
-e.listen("interrupted", function(...) interruped = true end)
+e.listen("interrupted", interrupt)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
+  print("Current: ", s[n.getFacing()], " | Desired: ", s[side])
   while not interruped or n.getFacing() ~= side do
     r.turnRight()
+	print("Current: ", s[n.getFacing()], " | Desired: ", s[side])
   end
 end
 
