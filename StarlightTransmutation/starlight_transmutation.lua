@@ -36,7 +36,7 @@ function fill_work()
 end
 
 function interrupt(...)
-  interruped = true
+  interrupted = true
   print("Received interrupt")
 end
 
@@ -48,7 +48,7 @@ print("Starlight Transmutation!")
 
 function rotate_to(side)
   print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
-  while not interruped or n.getFacing() ~= side do
+  while not interrupted and n.getFacing() ~= side do
     print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
     r.turnRight()
   end
@@ -64,8 +64,8 @@ function move(n, pos_fn, neg_fn)
           print("Cannot move:", msg)
           os.sleep(0.25)
         end
-      until interruped or success
-      if interruped then return end
+      until interrupted or success
+      if interrupted then return end
     end
   end
 end
@@ -81,17 +81,17 @@ end
 function go_to(t_x, t_y, t_z)
   local x, y, z = n.getPosition()
   local d_x, d_y, d_z = t_x - x, t_y - y, t_z - z
-  if interruped then return end
+  if interrupted then return end
   if d_y ~= 0 then
     move_up(d_y)
   end
-  if interruped then return end
+  if interrupted then return end
   if d_x ~= 0 then
     local facing_name = (d_x > 0 and "pos" or "neg") .. "x"
     rotate_to(s[facing_name])
     move_forward(math.abs(d_x))
   end
-  if interruped then return end
+  if interrupted then return end
   if d_z ~= 0 then
     local facing_name = (d_z > 0 and "pos" or "neg") .. "z"
     rotate_to(s[facing_name])
@@ -180,11 +180,11 @@ function not_ready()
 end
 
 function wait_until_ready()
-  while not interruped or not_ready() do
+  while not interrupted and not_ready() do
     os.sleep(5)
-    if interruped then break end
+    if interrupted then break end
     go_home()
-    if interruped then break end
+    if interrupted then break end
     prep_inv()
   end
 end
@@ -208,15 +208,15 @@ function work()
   end
 end
 
-while not interruped do
+while not interrupted do
   go_home()
-  if interruped then break end
+  if interrupted then break end
   prep_inv()
-  if interruped then break end
+  if interrupted then break end
   wait_until_ready()
-  if interruped then break end
+  if interrupted then break end
   work()
-  if interruped then break end
+  if interrupted then break end
 end
 
 print("Interrupted")
