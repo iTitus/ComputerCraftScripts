@@ -35,21 +35,28 @@ function fill_work()
   end
 end
 
-function interrupt(...)
+function on_interrupted(event, ...)
   interrupted = true
   print("Received interrupt")
+end
+
+function on_inventory_change(event, slot)
+  if not interrupted and slot == 16 and r.count(16) == 0 then
+    interrupted = true
+    print("Received interrupt by output item removal")
+  end
 end
 
 t.clear()
 t.setCursor(1, 1)
 fill_work()
-e.listen("interrupted", interrupt)
+e.listen("interrupted", on_interrupted)
+e.listen("inventory_changed", on_inventory_change)
 print("Starlight Transmutation!")
+print("Remove the output item from Slot 16 to instantly abort the program")
 
 function rotate_to(side)
-  -- print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
   while not interrupted and n.getFacing() ~= side do
-    -- print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
     r.turnRight()
   end
 end
@@ -58,7 +65,7 @@ function move(n, pos_fn, neg_fn)
   if n ~= 0 then
     local fn = n > 0 and pos_fn or neg_fn
     for i = 1, math.abs(n), 1 do
-	  local success, msg
+      local success, msg
       repeat
         success, msg = fn()
         if not success then
@@ -198,25 +205,25 @@ function do_work()
     is_input = true
   else
     r.select(16)
-	if r.compareUp() then
+    if r.compareUp() then
       is_output = true
-	end
+    end
   end
   
   if is_output then
     local success, msg
     repeat
-	  success, msg = r.swingUp()
-	  if not success then
+      success, msg = r.swingUp()
+      if not success then
         print("Cannot break block")
         os.sleep(0.25)
       end
-	until interrupted or success
+    until interrupted or success
   end
   if interrupted then return end
   if not is_input then
     r.select(1)
-	local success, msg
+    local success, msg
     repeat
       success, msg = r.placeUp()
       if not success then
