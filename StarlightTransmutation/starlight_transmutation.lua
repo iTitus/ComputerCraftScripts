@@ -56,10 +56,13 @@ function move(n, pos_fn, neg_fn)
   if n ~= 0 then
     local fn = n > 0 and pos_fn or neg_fn
     for i = n > 0 and 1 or -1, n, n > 0 and 1 or -1 do
-      while not interruped or not fn() do
-        print("Cannot move: path obstructed!")
-        os.sleep(0.25)
-      end
+	  repeat
+	    local success, msg = fn()
+		if not success then
+		  print("Cannot move:", msg)
+		  os.sleep(0.25)
+		end
+	  until interruped or success
 	  if interruped then return end
     end
   end
