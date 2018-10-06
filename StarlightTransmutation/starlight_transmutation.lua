@@ -26,8 +26,8 @@ function fill_work()
     local end_  = odd and ( 1 - SIZE) or (0       )
     local step  = odd and (-1       ) or (1       )
     for x = start, end_, step do
-	  table.insert(WORK, { x=x, y=y, z=z })
-	end
+      table.insert(WORK, { x=x, y=y, z=z })
+    end
   end
 end
 
@@ -40,16 +40,16 @@ function rotate_to(side)
   local facing = n.getFacing()
   while facing ~= side do
     r.turnRight()
-	facing = n.getFacing()
+    facing = n.getFacing()
   end
 end
 
 function move_forward(n)
   for i = 1, n, 1 do
     while not r.forward() do
-	  print("Cannot move: path obstructed!")
-	  os.sleep(0.25)
-	end
+      print("Cannot move: path obstructed!")
+      os.sleep(0.25)
+    end
   end
 end
 
@@ -57,18 +57,18 @@ function go_to(x, y, z)
   local d_x, d_y, d_z = HOME.X - x, HOME.y - y, HOME.z - z
   if d_x ~= 0 then
     local facing_name = (d_x < 0 and "pos" or "neg") .. "x"
-	rotate_to(s[facing_name])
-	move_forward(abs(d_x))
+    rotate_to(s[facing_name])
+    move_forward(abs(d_x))
   end
   if d_y ~= 0 then
     local facing_name = (d_y < 0 and "pos" or "neg") .. "y"
-	rotate_to(s[facing_name])
-	move_forward(abs(d_y))
+    rotate_to(s[facing_name])
+    move_forward(abs(d_y))
   end
   if d_z ~= 0 then
     local facing_name = (d_z < 0 and "pos" or "neg") .. "z"
-	rotate_to(s[facing_name])
-	move_forward(abs(d_z))
+    rotate_to(s[facing_name])
+    move_forward(abs(d_z))
   end
 end
 
@@ -88,7 +88,7 @@ function prep_inv()
   
   r.select(16)
   local count = r.count()
-  if count > 1
+  if count > 1 then
     r.drop(count - 1)
   end
   -----------------------------------------------------------------------------
@@ -99,14 +99,14 @@ function prep_inv()
   if space > 0 then
     for i = 1, inv.getInventorySize(s.front), 1 do
       local item = inv.getStackInSlot(s.front, i)
-	  if item and item.name == INPUT.name and item.damage == INPUT.damage then
-	    if inv.suckFromSlot(s.front, i, space) then
-	      space = r.space()
-	    end
-	    if space == 0 then
-	      break
-	    end
-	  end
+      if item and item.name == INPUT.name and item.damage == INPUT.damage then
+        if inv.suckFromSlot(s.front, i, space) then
+          space = r.space()
+        end
+        if space == 0 then
+          break
+        end
+      end
     end
   end
   
@@ -139,10 +139,10 @@ function not_ready()
     return true
   end
   for i = 2, 15, 1 do
-    if r.count(i) > 0 do
-	  print("Stack in Slot " .. i .. " is not empty")
-	  return true
-	end
+    if r.count(i) > 0 then
+      print("Stack in Slot " .. i .. " is not empty")
+      return true
+    end
   end
   stack = r.getStackInInternalSlot(16)
   if not stack or stack.size ~= 1 or stack.name ~= OUTPUT.name or stack.damage ~= OUTPUT.damage then
@@ -156,8 +156,8 @@ end
 function wait_until_ready()
   while not_ready() do
     os.sleep(5)
-	go_home()
-	prep_inv()
+    go_home()
+    prep_inv()
   end
 end
 
@@ -173,10 +173,10 @@ end
 function work()
   for _, pos in ipairs(WORK) do
     go_to(pos.x, pos.y, pos.z)
-	do_work()
-	if r.count(1) <= 1 then
-	  break
-	end
+    do_work()
+    if r.count(1) <= 1 then
+      break
+    end
   end
 end
 
