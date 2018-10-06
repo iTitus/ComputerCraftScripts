@@ -7,9 +7,9 @@ local s    = require("sides")
 local n    = com.navigation
 local inv  = com.inventory_controller
 
-local HOME            = { facing=s.west, x=-15.5, y=130.5, z=52.5 }
+local HOME            = { facing=s.west , x=-15.5, y=130.5, z=52.5 }
 local INPUT           = { facing=s.south, name="minecraft:sandstone", damage=0 }
-local OUTPUT          = { facings.east, name="minecraft:end_stone", damage=0 }
+local OUTPUT          = { facing=s.east , name="minecraft:end_stone", damage=0 }
 local ENERGY_TRESHOLD = 0.99
 local SIZE            = 3
 local WORK            = {}
