@@ -1,6 +1,7 @@
 local comp = require("computer")
 local com  = require("component")
 local t    = require("term")
+local e    = require("event")
 local os   = require("os")
 local math = require("math")
 local r    = require("robot")
@@ -37,7 +38,7 @@ end
 t.clear()
 t.setCursor(1, 1)
 fill_work()
-event.listen("interrupted", function() interruped = true end)
+e.listen("interrupted", function() interruped = true end)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
