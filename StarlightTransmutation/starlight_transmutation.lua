@@ -30,7 +30,7 @@ function fill_work()
     local end_  = odd and ( 1 - SIZE) or (0       )
     local step  = odd and (-1       ) or (1       )
     for x = start, end_, step do
-      table.insert(WORK, { x=x, y=y, z=z })
+      table.insert(WORK, { x=HOME.x+x, y=y, z=HOME.z+z })
     end
   end
 end
@@ -47,9 +47,9 @@ e.listen("interrupted", interrupt)
 print("Starlight Transmutation!")
 
 function rotate_to(side)
-  print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
+  -- print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
   while not interrupted and n.getFacing() ~= side do
-    print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
+    -- print("rotate_to: Current: ", s[n.getFacing()], " | Desired: ", s[side])
     r.turnRight()
   end
 end
