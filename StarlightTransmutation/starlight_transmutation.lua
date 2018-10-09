@@ -4,6 +4,7 @@ local t    = require("term")
 local e    = require("event")
 local os   = require("os")
 local math = require("math")
+local table = require("table")
 local r    = require("robot")
 local s    = require("sides")
 local n    = com.navigation
@@ -21,7 +22,7 @@ local interrupted = false
 
 ------------------------------
 
-function fill_work()
+local function fill_work()
   -- assuming HOME is in the south-east corner and
      -- one block below the 3x3 work area
   local y = HOME.y + 1
@@ -36,12 +37,12 @@ function fill_work()
   end
 end
 
-function on_interrupted(event, ...)
+local function on_interrupted(event, ...)
   interrupted = true
   print("Received event interrupt")
 end
 
-function on_inventory_change(event, slot)
+local function on_inventory_change(event, slot)
   if not interrupted and slot == 16 and r.count(16) == 0 then
     interrupted = true
     print("Received interrupt by output item removal")
@@ -56,13 +57,13 @@ e.listen("inventory_changed", on_inventory_change)
 print("Starlight Transmutation!")
 print("Remove the output item from Slot 16 to instantly abort the program")
 
-function rotate_to(side)
+local function rotate_to(side)
   while not interrupted and n.getFacing() ~= side do
     r.turnRight()
   end
 end
 
-function move(n, pos_fn, neg_fn)
+local function move(n, pos_fn, neg_fn)
   if n ~= 0 then
     local fn = n > 0 and pos_fn or neg_fn
     for i = 1, math.abs(n), 1 do
@@ -79,15 +80,15 @@ function move(n, pos_fn, neg_fn)
   end
 end
 
-function move_forward(n)
+local function move_forward(n)
   move(n, r.forward, r.back)
 end
 
-function move_up(n)
+local function move_up(n)
   move(n, r.up, r.down)
 end
 
-function go_to(t_x, t_y, t_z)
+local function go_to(t_x, t_y, t_z)
   local x, y, z = n.getPosition()
   local d_x, d_y, d_z = t_x - x, t_y - y, t_z - z
   if interrupted then return end
@@ -108,12 +109,12 @@ function go_to(t_x, t_y, t_z)
   end
 end
 
-function go_home()
+local function go_home()
   go_to(HOME.x, HOME.y, HOME.z)
   rotate_to(HOME.facing)
 end
 
-function prep_inv()
+local function prep_inv()
   rotate_to(HOME.facing)
   
   r.select(8)
@@ -187,7 +188,7 @@ function prep_inv()
   end
 end
 
-function not_ready()
+local function not_ready()
   -- Energy
   if comp.energy() < ENERGY_TRESHOLD * comp.maxEnergy() then
     print("Missing energy")
@@ -247,7 +248,7 @@ function not_ready()
   return false
 end
 
-function wait_until_ready()
+local function wait_until_ready()
   while not interrupted and not_ready() do
     os.sleep(5)
     if interrupted then break end
@@ -257,7 +258,7 @@ function wait_until_ready()
   end
 end
 
-function do_work()
+local function do_work()
   local is_input = false
   local is_output = false
   r.select(1)
@@ -294,7 +295,7 @@ function do_work()
   end
 end
 
-function work()
+local function work()
   for _, pos in ipairs(WORK) do
     go_to(pos.x, pos.y, pos.z)
     if interrupted then break end
