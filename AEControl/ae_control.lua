@@ -88,6 +88,8 @@ local function render_info()
   term.setCursor(1, 1)
   term.write("AE Control!")
   term.setCursor(1, 3)
+  
+  local _, y = term.getCursorPos()
   for _, item in ipairs(autocraft_items) do
     local line = item.label .. " " .. item.size .. "/" .. item.min_size
     local crafting_job = item.crafting_job
@@ -95,6 +97,9 @@ local function render_info()
       line = line .. "done=" .. tostring(crafting_job.isDone()) .. "canceled=" .. tostring(crafting_job.isCanceled())
     end
     term.write(line)
+	
+	y = y + 1
+	term.setCursorPos(1, y)
   end
 end
 
