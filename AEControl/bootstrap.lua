@@ -23,7 +23,7 @@ if getState() == "0" then
   setState("1")
   comp.shutdown(true)
 else
-  print("Starting Starlight Transmutation")
+  print("Starting AE Control")
   setState("0")
-  shell.execute("starlight_transmutation")
+  shell.execute("ae_control")
 end
