@@ -1,3 +1,5 @@
+local t = require("term")
+
 local SLEEP_TIME = 1
 
 local interruped = false
