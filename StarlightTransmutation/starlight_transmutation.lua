@@ -70,7 +70,7 @@ function move(n, pos_fn, neg_fn)
       repeat
         success, msg = fn()
         if not success then
-          print("Cannot move: " .. msg)
+          print("Cannot move: " .. tostring(msg))
           os.sleep(0.25)
         end
       until interrupted or success
@@ -287,7 +287,7 @@ function do_work()
     repeat
       success, msg = r.placeUp()
       if not success then
-        print("Cannot place block: " .. msg)
+        print("Cannot place block: " .. tostring(msg))
         os.sleep(0.25)
       end
     until interrupted or success
