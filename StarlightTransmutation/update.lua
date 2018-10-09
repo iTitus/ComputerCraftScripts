@@ -6,6 +6,7 @@ function download(name)
   shell.execute("wget -f "..PARENT_URL..name.." "..name)
 end
 
+download(".shrc")
 download("bootstrap.lua")
 download("update.lua")
 download("starlight_transmutation.lua")
