@@ -123,7 +123,7 @@ local function prep_inv()
     if tool and tool.size == 1 and tool.name == TOOL.name and tool.damage == TOOL.damage then
       local success, msg = r.dropDown()
       if not success then
-        print("Could not drop tool into charger: " .. msg)
+        print("Could not drop tool into charger: " .. tostring(msg))
       end
     else
       print("The equipped tool does not match the template")
@@ -177,7 +177,7 @@ local function prep_inv()
     if not tool then
       local success, msg = r.suckDown()
       if not success then
-        print("Could not suck tool from charger: " .. msg)
+        print("Could not suck tool from charger: " .. tostring(msg))
       end
     else
       print("Unexpected tool in tool slot")
