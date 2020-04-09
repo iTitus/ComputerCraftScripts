@@ -7,6 +7,7 @@ SLEEP_TIME = 1
 AVERAGE_SAMPLES = 30
 
 m = peripheral.find("monitor")
+m.setTextScale(2)
 term.redirect(m)
 
 e = peripheral.find("draconic_rf_storage")
@@ -33,6 +34,10 @@ end
 
 function getEnergyText()
   return comma_value(getEnergy()) .. " RF"
+end
+
+function getMaxEnergyText()
+  return comma_value(getMaxEnergy()) .. " RF"
 end
 
 function getPercentageText()
@@ -93,14 +98,20 @@ while true do
   
   local w, h = m.getSize()
   local eT = getEnergyText()
+  local cT = getMaxEnergyText()
   local pT = getPercentageText()
   local ioT = getIOText()
   
   m.setCursorPos(1, 1)
-  m.write("Energy: " .. eT .. " (" .. pT .. ")")
+  m.write("Cur: " .. eT)
   m.setCursorPos(1, 2)
-  m.write("IO: " .. ioT)
+  m.write("Max: " .. cT)
   m.setCursorPos(1, 3)
+  m.write("Percent: " .. pT)
+  m.setCursorPos(1, 4)
+  m.write("IO: " .. ioT)
+  
+  m.setCursorPos(1, 5)
   local s = "State: Generators "
   if rs_state then
     s = s .. "ON"
@@ -109,14 +120,16 @@ while true do
   end
   m.write(s)
   
+  local line = 7
+  
   local e = getEnergy()
   local c = getMaxEnergy()
   local p = e / c
   if e > 0 and e < c then -- 0 < e < c
     local dW = floor(((w - 2) * p) + 0.5) + 1
     dW = math.max(1, math.min(w - 2, dW))
-    paintutils.drawFilledBox(2, 7, dW, 7, colors.green)
-    paintutils.drawFilledBox(dW + 1, 7, w - 1, 7, colors.red)
+    paintutils.drawFilledBox(2, line, dW, line + 1, colors.green)
+    paintutils.drawFilledBox(dW + 1, line, w - 1, line + 1, colors.red)
   else
     local col = nil
     if e > 0 then -- e = c
@@ -124,10 +137,10 @@ while true do
     else -- e = 0
       col = colors.green
     end
-    paintutils.drawFilledBox(2, 7, w - 2, 7, col)
+    paintutils.drawFilledBox(2, line, w - 2, line, col)
   end
-  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_ON_P) + 1)), 8, colors.yellow)
-  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_OFF_P) + 1)), 8, colors.yellow)
+  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_ON_P) + 1)), line + 2, colors.yellow)
+  paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_OFF_P) + 1)), line + 2, colors.yellow)
   
   m.setBackgroundColor(colors.black)
   sleep(SLEEP_TIME)
