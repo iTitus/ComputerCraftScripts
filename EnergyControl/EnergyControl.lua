@@ -42,7 +42,7 @@ end
 
 function updateIO()
   local io_current = getTransfer()
-  io_list.current = (oi_list.current + 1) % AVERAGE_SAMPLES
+  io_list.current = (io_list.current + 1) % AVERAGE_SAMPLES
   io_list[io_list.current] = io_current
   
   io_avg = 0
