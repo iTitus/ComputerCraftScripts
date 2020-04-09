@@ -7,7 +7,10 @@ SLEEP_TIME = 1
 AVERAGE_SAMPLES = 30
 
 m = peripheral.find("monitor")
+term.redirect(m)
+
 e = peripheral.find("draconic_rf_storage")
+
 rs_state = true
 io_list = {current=0}
 io_avg = 0
