@@ -1,35 +1,27 @@
 TURN_ON_P = 5 / 100
 TURN_OFF_P = 95 / 100
 
-ENERGY_SIDE = "back"
-RS_SIDE = "right"
+RS_SIDE = "back"
 
 SLEEP_TIME = 1
 AVERAGE_SAMPLES = 30
 
-e = peripheral.wrap(ENERGY_SIDE)
+m = peripheral.find("monitor")
+e = peripheral.find("draconic_rf_storage")
 rs_state = true
-i_list, o_list = {current=0}, {current=0}
-i_avg, o_avg, io_avg = 0, 0, 0
+io_list = {current=0}
+io_avg = 0
 
 function getEnergy()
-  return floor(e.getEnergy() / 8)
+  return e.getEnergyStored()
 end
 
 function getMaxEnergy()
-  return floor(e.getMaxEnergy() / 8)
+  return e.getMaxEnergyStored()
 end
 
-function getInput()
-  return floor(e.getInput() / 8)
-end
-
-function getOutput()
-  return floor(e.getOutput() / 8)
-end
-
-function getMaxTransfer()
-  return floor(e.getTransferCap() / 8)
+function getTransfer()
+  return e.getTransferPerTick() 
 end
 
 function getPercentage()
@@ -44,37 +36,20 @@ function getPercentageText()
   return floor(getPercentage(), 0.01) .. " %"
 end
 
-function getInputText()
-  return comma_value(round(i_avg, 0.01)) .. " RF/t"
-end
-
-function getOutputText()
-  return comma_value(round(o_avg, 0.01)) .. " RF/t"
-end
-
 function getIOText()
   return comma_value(round(io_avg, 0.01)) .. " RF/t"
 end
 
-function getMaxTransferText()
-  return comma_value(getMaxTransfer()) .. " RF/t"
-end
-
 function updateIO()
-  local i, o = getInput(), getOutput()
-  i_list.current, o_list.current = (i_list.current + 1) % AVERAGE_SAMPLES, (o_list.current + 1) % AVERAGE_SAMPLES
-  i_list[i_list.current] = i
-  o_list[o_list.current] = o
+  local io_current = getTransfer()
+  io_list.current = (oi_list.current + 1) % AVERAGE_SAMPLES
+  io_list[io_list.current] = io_current
   
-  i_avg, o_avg = 0, 0
-  local i_size, o_size = #i_list, #o_list
-  for _, v in ipairs(i_list) do
-    i_avg = i_avg + (v / i_size)
+  io_avg = 0
+  local io_size = #io_list
+  for _, v in ipairs(io_list) do
+    io_avg = io_avg + (v / io_size)
   end
-  for _, v in ipairs(o_list) do
-    o_avg = o_avg + (v / o_size)
-  end
-  io_avg = i_avg - o_avg
 end
 
 function updateRS()
@@ -108,35 +83,28 @@ function floor(v, bracket)
 end
 
 while true do
-  term.clear()
+  m.clear()
 
   updateIO()
   updateRS()
   
-  local w, h = term.getSize()
+  local w, h = m.getSize()
   local eT = getEnergyText()
   local pT = getPercentageText()
-  local iT = getInputText()
-  local oT = getOutputText()
   local ioT = getIOText()
-  local tT = getMaxTransferText()
   
-  term.setCursorPos(1, 1)
-  term.write("Energy: " .. eT .. " (" .. pT .. ")")
-  term.setCursorPos(1, 2)
-  term.write("In: " .. iT)
-  term.setCursorPos(1, 3)
-  term.write("Out: " .. oT)
-  term.setCursorPos(1, 4)
-  term.write("IO: " .. ioT)
-  term.setCursorPos(1, 5)
+  m.setCursorPos(1, 1)
+  m.write("Energy: " .. eT .. " (" .. pT .. ")")
+  m.setCursorPos(1, 2)
+  m.write("IO: " .. ioT)
+  m.setCursorPos(1, 3)
   local s = "State: Generators "
   if rs_state then
     s = s .. "ON"
   else
     s = s .. "OFF"
   end
-  term.write(s)
+  m.write(s)
   
   local e = getEnergy()
   local c = getMaxEnergy()
@@ -158,6 +126,6 @@ while true do
   paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_ON_P) + 1)), 8, colors.yellow)
   paintutils.drawPixel(math.max(1, math.min(w - 1, floor((w - 1) * TURN_OFF_P) + 1)), 8, colors.yellow)
   
-  term.setBackgroundColor(colors.black)
+  m.setBackgroundColor(colors.black)
   sleep(SLEEP_TIME)
 end
