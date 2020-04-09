@@ -1,4 +1,4 @@
-TURN_ON_P = 5 / 100
+TURN_ON_P = 50 / 100
 TURN_OFF_P = 95 / 100
 
 RS_SIDE = "back"
