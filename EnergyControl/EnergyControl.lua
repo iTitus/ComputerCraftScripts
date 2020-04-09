@@ -25,7 +25,7 @@ function getTransfer()
 end
 
 function getPercentage()
-  return 100.0 * (getEnergy() / getMaxEnergy())
+  return 100 * (getEnergy() / getMaxEnergy())
 end
 
 function getEnergyText()
