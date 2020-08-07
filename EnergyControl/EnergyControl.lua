@@ -32,12 +32,14 @@ function getPercentage()
   return 100 * (getEnergy() / getMaxEnergy())
 end
 
-function getEnergyText()
-  return comma_value(getEnergy()) .. " RF"
-end
-
-function getMaxEnergyText()
-  return comma_value(getMaxEnergy()) .. " RF"
+function getEnergyTexts()
+  local eT = comma_value(getEnergy()) .. " RF"
+  local cT = comma_value(getMaxEnergy()) .. " RF"
+  
+  local lenDiff = math.max(0, ct:len() - eT:len())
+  eT = " ":rep(lenDiff) .. eT
+  
+  return eT, cT
 end
 
 function getPercentageText()
@@ -97,8 +99,7 @@ while true do
   updateRS()
   
   local w, h = m.getSize()
-  local eT = getEnergyText()
-  local cT = getMaxEnergyText()
+  local eT, cT = getEnergyTexts()
   local pT = getPercentageText()
   local ioT = getIOText()
   
