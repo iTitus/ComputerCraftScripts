@@ -37,7 +37,7 @@ function getEnergyTexts()
   local cT = comma_value(getMaxEnergy()) .. " RF"
   
   local lenDiff = math.max(0, ct:len() - eT:len())
-  eT = " ":rep(lenDiff) .. eT
+  eT = string.rep(" ", lenDiff) .. eT
   
   return eT, cT
 end
